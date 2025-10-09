@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - ./srd-back-end/.env.development.local
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .                     # Root context to access shared/
+      dockerfile: ./srd-back-end/Dockerfile
+    working_dir: /app/srd-back-end
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    env_file:
+      - ./srd-back-end/.env.development.local
+    volumes:
+      - .:/app                       # Mount entire repo to access shared/
+      - backend_node_modules:/app/srd-back-end/node_modules
+    command: pnpm start:dev
+    restart: always
+
+  frontend:
+    build:
+      context: .                     # Root context to access shared/
+      dockerfile: ./srd-front-end/Dockerfile
+    working_dir: /app/srd-front-end
+    ports:
+      - '5173:5173'
+    depends_on:
+      - backend
+    env_file:
+      - ./srd-front-end/.env.development.local
+    volumes:
+      - .:/app                       # Mount entire repo to access shared/
+      - frontend_node_modules:/app/srd-front-end/node_modules
+    command: pnpm run dev
+    restart: always
+
+volumes:
+  pgdata:
+  backend_node_modules:
+  frontend_node_modules:
