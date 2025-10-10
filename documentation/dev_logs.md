@@ -8,7 +8,7 @@
 - What I learned
     - UI toolkits such as Tailgrid exist such that I can focus on the implementation of the dashboard and not designing every little component
 - Known Issues
-    - Web app does not update when files are saved. Frontend Docker container must be restarted to se change
+    - Web app does not update when files are saved. Frontend Docker container must be restarted to see change
 
 ## 09 October 2025
 - What I did
