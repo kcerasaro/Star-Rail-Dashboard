@@ -82,25 +82,60 @@ star-rail-dashboard/
 - edit/finish button for changing values and viewing content
 
 ## 3. End Game Tracker
-> Implementation details coming soon.
 
 ### Back End
+- Modes: Memory of Chaos, Pure Fiction, Apocalptic Shadow, Anomaly Arbitration
+- Name of mode version
+- Time until reset
 
 ### Front End
+- edit/finish button
+- form (for each mode)
+  - name
+  - deadline (date)
 
 ## 4. To-Do List
-> Implementation details coming soon.
 
 ### Back End
+- Task Options
+  - quests {name: string, type: string}
+    - Trailblaze, Trailblaze Continuance, Companion, Adventure
+  - exploration {world: string, map: string}
+  - event: {name: string, deadline: date}
+  - build character {name: string}
+    - level, traces, lightcone, relics {head, body, hands, feet, planar, rope}
+  - other
 
 ### Front End
+- add task: dropdown for type
+- completed and ongoing tab
+- quest
+  - dropdown for type
+  - string input or type
+- exploration
+  - dropdown for world
+  - dropdown for map
+- event
+  - string input for name
+  - calendar input for deadline
+- build
+  - dropdown for name
+  - checkbox for each other attribute
+- other
+  - string input for title
+  - string input for description
+- future
+  - filter by task type
+
 
 ## 5. Run Showcase
-> Implementation details coming soon.
 
 ### Back End
+- playlist: {name: string, url: string}
 
 ### Front End
+- dropdown: pick playlist
+- list of videos
 
 ## 6. User Information
 ### Back End
