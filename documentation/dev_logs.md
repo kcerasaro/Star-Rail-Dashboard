@@ -1,3 +1,13 @@
+## 13 October 2025
+- What I did
+    - Optimized Docker environment
+    - Connected backend to database via TypeORM
+- What I learned
+    - When adding new packages, it is important to rebuild as well as take down any volumes. Otherwise the packages will downloaded on local will not be seen by Docker.
+    - It is good practice to add userID to data, even if multiple users will not be implemented for a while.
+- Known Issues
+    - here
+
 ## 20 October 2025
 - What I did
     - Decided on first version of color palette
