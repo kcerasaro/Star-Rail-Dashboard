@@ -36,4 +36,4 @@ pnpm run start:dev
 ```
 
 # Endpoints
-*coming soon*
+Run the backend and open the [Swagger URL](http://localhost:3000/api#/) to view endpoints

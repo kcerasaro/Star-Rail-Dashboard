@@ -11,7 +11,7 @@ NestJS | React | Vite | PostgreSQL | Docker
 Build a personalized web application to practice full-stack development and explore game-related data visualization.
 
 ## Key Features
-- **User Information**: Displays username and UID, with a copy-to-clipboard function.
+- **Player Information**: Displays username and UID, with a copy-to-clipboard function.
 
 - **Warp Tracker**: Calculates available warps based on entered currencies and a user-defined deadline.
 

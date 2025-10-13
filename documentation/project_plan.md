@@ -137,7 +137,7 @@ star-rail-dashboard/
 - dropdown: pick playlist
 - list of videos
 
-## 6. User Information
+## 6. Player Information
 ### Back End
 - name: string
 - UID: string
@@ -147,13 +147,3 @@ star-rail-dashboard/
 - Display username
 - Display UID (copy to clipboard)
 - Display region
-
-# Color Palette
-### V1
- <span style="color: #1C2E4A;">■</span>#1C2E4A
- <span style="color: #2D4C73;">■</span>#2D4C73
- <span style="color: #4A6EA5;">■</span>#4A6EA5
- <span style="color: #3D2B6B;">■</span>#3D2B6B
- <span style="color: #4A3A7A;">■</span>#4A3A7A
- <span style="color: #0A0A0A;">■</span>#0A0A0A
- <span style="color: #E0E0E0;">■</span>#E0E0E0
