@@ -1,9 +1,9 @@
 # Star-Rail-Dashboard
 
-Star Rail Dashboard is a personalized web dashboard designed to track the user's game content from warps to end game content. 
+Star Rail Dashboard is a personalized web dashboard designed to track the user's game content from warps to end game content. Follow the development progress [here](https://github.com/users/kcerasaro/projects/2)!
 
 # Tech Stack
-NestJS | React | Vite | PostgreSQL | Docker
+NestJS | React | Vite | PostgreSQL | Docker | Swagger
 
 # Key Features and Goals
 
