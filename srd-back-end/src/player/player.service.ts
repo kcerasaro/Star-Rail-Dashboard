@@ -14,4 +14,12 @@ export class PlayerService {
         const player = this.playerRepository.create({...createPlayerDto, userId});
         return this.playerRepository.insert(player);
     }
+
+    getUserById(userId: string): Promise<Player[]> {
+        return this.playerRepository.findBy({ userId });
+    }
+
+    getPlayerById(uid: string): Promise<Player> {
+        return this.playerRepository.findOneByOrFail({ uid });
+    }
 }
