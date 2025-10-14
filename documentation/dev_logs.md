@@ -5,14 +5,16 @@
     - Added Swagger for easy endpoint documentation
     - Refactored User Information feature to Player for clarity
         - User authnetication is being considered at a later date. Users may have accounts across regions defined here as "Player"
+    - Implemented backend logic for feature #6
 - What I learned
     - When adding new packages, it is important to rebuild as well as take down any volumes. Otherwise the packages will downloaded on local will not be seen by Docker.
-    - It is good practice to add userID to data, even if multiple users will not be implemented for a while.
+    - It is good practice to add userID to data, even if multiple users will not be implemented for a while
     - DTOs outline what is needed from the user. Ex: authentication. The DTO would ask for username and password- the user does not need to know their ID in the system
+    - How to use Swagger API decorators to document a developing API
 - Known Issues
-    - here
+    - None
 
-## 20 October 2025
+## 10 October 2025
 - What I did
     - Decided on first version of color palette
     - Began initial planning of feature #3
