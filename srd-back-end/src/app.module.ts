@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserInformationModule } from './user-information/user-information.module';
+import { PlayerModule } from './player/player.module.'
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { UserInformationModule } from './user-information/user-information.modul
       autoLoadEntities: true,
       synchronize: true, // FALSE IN PROD
     }),
-    UserInformationModule],
+    PlayerModule],
   controllers: [AppController],
   providers: [AppService],
 })
