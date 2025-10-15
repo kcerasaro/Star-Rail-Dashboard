@@ -1,8 +1,8 @@
 ## 14 October 2025
 - What I did
-    - here
+    - Implementented Update for Player
 - What I learned
-    - here
+    - != checks value while !== checks type and value
 - Known Issues
     - here
 
