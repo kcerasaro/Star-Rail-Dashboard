@@ -1,3 +1,20 @@
+## 14 October 2025
+- What I did
+    - here
+- What I learned
+    - here
+- Known Issues
+    - here
+
+## 14 October 2025
+- What I did
+    - Started the implementation of Update and Delete Player
+- What I learned
+    - PATCH vs. PUT - PUT updates all fields while PATCH updates select fields. There doesn't need to be a PATCH request for every field- just one and all fields you can choose whether the user can edit or not
+    - CRUD: Create, Read, Update, Delete- even if you don't plan to use certain parts of the acronym, it's good practice to implement them to complete the full data cycle.
+- Known Issues
+    - None
+
 ## 13 October 2025
 - What I did
     - Optimized Docker environment
