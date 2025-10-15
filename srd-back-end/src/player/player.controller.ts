@@ -19,12 +19,7 @@ export class PlayerController {
     @ApiOperation({ summary: "Create a new player" })
     @ApiBody({ type: CreatePlayerDto })
     async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<InsertResult> {
-        try {
-            return await this.playerService.createPlayer(createPlayerDto, this.hardCodedId2); // HARD CODED USERID
-        } catch(error) {
-            throw new HttpException('Failed to create player', HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedId1); // HARD CODED USERID
     }
 
     // READ
@@ -35,6 +30,7 @@ export class PlayerController {
     }
 
     @Get(":uid")
+    @ApiParam({name: "uid", type: String, description: "UID of the player"})
     @ApiOperation({ summary: "Get a player from user"})
     async getPlayer(@Param("uid") uid: string) {
         return await this.playerService.getPlayerById(uid);
@@ -46,7 +42,6 @@ export class PlayerController {
     @ApiBody({type: UpdatePlayerDto})
     @ApiOperation({summary: "Update player name, uid, and/or region"})
     async updatePlayer(@Param("id") id: string,@Body()  updatePlayerDto: UpdatePlayerDto): Promise<Player> {
-        console.log('Updating player:', id, updatePlayerDto);
         return await this.playerService.updatePlayerById(id, updatePlayerDto);
     }
 

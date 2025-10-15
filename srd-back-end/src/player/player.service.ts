@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from './entity/player.entity';
@@ -13,9 +13,19 @@ export class PlayerService {
     private readonly playerRepository: Repository<Player>){}
 
     // CREATE
-    createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<InsertResult> {
+    async createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<InsertResult> {
         const player = this.playerRepository.create({...createPlayerDto, userId});
-        return this.playerRepository.insert(player);
+
+        try {
+            return await this.playerRepository.insert(player);
+
+        } catch(error) {
+            if (error.code == 23505) {
+                throw new ConflictException("UID already exists");
+            }
+
+            throw new InternalServerErrorException("Failed to create Player");
+        }
     }
 
     // READ
