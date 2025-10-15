@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, HttpException, HttpStatus, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { InsertResult } from 'typeorm';
@@ -46,4 +46,10 @@ export class PlayerController {
     }
 
     // DELETE
+    @Delete(":id")
+    @ApiParam({name: "id", type: String, description: "ID of player to delete"})
+    @ApiOperation({summary: "Delete player"})
+    async deletePlayer(@Param("id") id: string) {
+        return await this.playerService.deletePLayerById(id);
+    }
 }

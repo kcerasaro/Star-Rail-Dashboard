@@ -5,7 +5,7 @@ import { Player } from './entity/player.entity';
 import { InsertResult } from 'typeorm/browser';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { UpdateResult } from 'typeorm/browser';
+import { DeleteResult } from 'typeorm/browser';
 
 @Injectable()
 export class PlayerService {
@@ -48,7 +48,7 @@ export class PlayerService {
             const existing = await this.playerRepository.findOneBy( {uid: updatePlayerDto.uid} );
 
             if (existing && existing.id !== player.id) {
-                throw new ConflictException("UID already in use by another player")
+                throw new ConflictException("UID already in use by another player");
             }
         }
 
@@ -57,4 +57,13 @@ export class PlayerService {
     }
 
     // DELETE
+    async deletePLayerById(id: string): Promise<DeleteResult> {
+        const deletedPlayer = await this.playerRepository.delete({ id });
+        
+        if(deletedPlayer.affected === 0) {
+            throw new NotFoundException("Player not found");
+        }
+
+        return deletedPlayer;
+    }
 }

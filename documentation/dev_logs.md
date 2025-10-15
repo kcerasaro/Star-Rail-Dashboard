@@ -1,6 +1,7 @@
 ## 14 October 2025
 - What I did
     - Implementented Update for Player
+    - Implemented Delete for Player
 - What I learned
     - != checks value while !== checks type and value
 - Known Issues
