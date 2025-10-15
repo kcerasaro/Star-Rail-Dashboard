@@ -25,5 +25,29 @@ Build a personalized web application to practice full-stack development and expl
 
 - **Run Showcase**: Embeds a user’s YouTube playlist to display gameplay runs.
 
+# Environment Notes
+## Docker
+After downloading modules locally, take down the modules volumes.
+> IMPORTANT: Deleting the `pgdata` volume will delete all database data
+```
+# Remove only node_modules volumes (safe for dependency resets)
+docker compose down -v backend_node_modules frontend_node_modules
+
+# Stop all containers (preserves volumes unless -v is used)
+docker compose down
+
+# Rebuild containers
+docker compose build
+
+# Rebuild containers from scratch (no cache)
+docker compose build --no-cache
+
+# Start containers
+docker compose up
+
+# Start containers and rebuild first
+docker compose up --build
+```
+
 # Screenshots
 coming soon

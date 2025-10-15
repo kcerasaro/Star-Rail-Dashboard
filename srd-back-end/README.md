@@ -6,20 +6,6 @@ Ensure you have the following:
 3. Postman
 4. PostgreSQL
 
-# Docker
-Run the following command to set up the docker container:
-
-```
-docker-compose up
-```
-
-More commands:
-
-```
-docker ps             # check status of Docker containers
-docker-compose down   #takes down Docker containers
-```
-
 # PostgreSQL
 Ensure your local PostgreSQL instance matches the following:
 1. Database name: `srdb`
