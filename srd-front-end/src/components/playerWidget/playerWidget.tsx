@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './playerWidget.css';
-import { Player } from '../../../../shared/player.shared';
+import { Player, Region } from '../../../../shared/player.shared';
 
 function PlayerWidget() {
+  // states
     const [player, setPlayer] = useState<Player | null>(null);
     const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+    const regionOptions = Object.values(Region);
+
+    // load player info
     useEffect(() => {
       axios.get(`${import.meta.env.VITE_API_URL}/player/123`)
         .then(res => {
@@ -28,6 +32,7 @@ function PlayerWidget() {
       return <p>Loading player info...</p>;
     }
 
+    // edit player info
     const editPlayerInformation = () => {
       if(isEditing && editedPlayer) {
         axios.patch(`${import.meta.env.VITE_API_URL}/player/123`, {
@@ -68,6 +73,7 @@ function PlayerWidget() {
 
     const display = isEditing ? editedPlayer : player;
 
+    
   return (
     <div className="player-widget">
       <button id="editConfirm" onClick={editPlayerInformation}>{isEditing? "confirm" : "edit"}</button>
@@ -85,10 +91,16 @@ function PlayerWidget() {
               onChange={(e) => handleChange('uid', e.target.value)}
             />
             <input
-              id="inputField"
+              id="regionInput"
+              list="region-options"
               value={display?.region || ''}
               onChange={(e) => handleChange('region', e.target.value)}
             />
+            <datalist id="region-options">
+              {regionOptions.map((region) => (
+                <option key={region} value={region} />
+              ))}
+            </datalist>
             {errorMessage && (
               <div className="errorMessage">
                 {errorMessage}
