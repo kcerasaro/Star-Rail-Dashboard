@@ -12,8 +12,9 @@ Jump to [template](#template)
 - What I learned
     - != checks value while !== checks type and value
     - Previously, API responses returned raw database entities, which tightly coupled the frontend to the backend's internal schema. By introducing shared types, the backend transforms those entities into clean, consistent objects before sending them to the frontend. This decouples the API from the database and allows both frontend and backend to rely on the same type definitions, making data handling, validation, and integration much easier and more reliable.
+    - React components favor composition over inheritance: child components dont inherit their parent component like classes do. In other words, it's a "has-a" relationship instead of "is-a" relationship. This is done through nesting child components inside their parent component folder. To use it, import the component and call `<ChildComponent />`. To use the parent widget's basic structure, do `<ParentComponent> <ChildComponent /> <ParentComponent>`. The logic will be implemented in `ChildComponent.tsx`.
 - Known Issues
-    - here
+    - Docker command in root readme to remove the module volumes does not work
 
 ### 14 October 2025
 - What I did
@@ -22,7 +23,7 @@ Jump to [template](#template)
     - PATCH vs. PUT - PUT updates all fields while PATCH updates select fields. There doesn't need to be a PATCH request for every field- just one and all fields you can choose whether the user can edit or not
     - CRUD: Create, Read, Update, Delete- even if you don't plan to use certain parts of the acronym, it's good practice to implement them to complete the full data cycle.
 - Known Issues
-    - Docker command in root readme to remove the module volumes does not work
+    - None
 
 ### 13 October 2025
 - What I did
