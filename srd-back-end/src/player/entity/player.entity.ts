@@ -1,8 +1,9 @@
 import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import { Region } from '../../../../shared/player.shared';
 
-@Entity()
-export class Player {
-    @PrimaryGeneratedColumn('uuid')
+@Entity("player")
+export class PlayerEntity {
+    @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column()
@@ -14,6 +15,6 @@ export class Player {
     @Column({unique: true})
     uid: string;
 
-    @Column()
-    region: string;
+    @Column({ type: "enum", enum: Region })
+    region: Region;
 }

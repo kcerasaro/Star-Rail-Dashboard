@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {IsString, Matches, IsNotEmpty} from 'class-validator';
+import {IsString, Matches, IsNotEmpty, IsEnum} from 'class-validator';
+import { Region } from '../../../../shared/player.shared';
 
 export class CreatePlayerDto {
     @IsNotEmpty()
@@ -14,7 +15,7 @@ export class CreatePlayerDto {
     uid: string;
 
     @IsNotEmpty()
-    @IsString()
-    @ApiProperty({example: "America", description: "Region the player belongs to"})
-    region: string;
+    @IsEnum(Region)
+    @ApiProperty({enum: Region, example: Region.AMERICA, description: "Region the player belongs to"})
+    region: Region;
 }

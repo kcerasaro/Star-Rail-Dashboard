@@ -1,69 +1,81 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Player } from './entity/player.entity';
-import { InsertResult } from 'typeorm/browser';
+import { Player } from '../../../shared/player.shared';
+import { PlayerEntity } from './entity/player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { DeleteResult } from 'typeorm/browser';
+import { mapEntityToPlayer } from './player.mapper';
 
 @Injectable()
 export class PlayerService {
-    constructor(@InjectRepository(Player) 
-    private readonly playerRepository: Repository<Player>){}
+    constructor(@InjectRepository(PlayerEntity) 
+    private readonly playerEntityRepository: Repository<PlayerEntity>){}
 
     // CREATE
-    async createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<InsertResult> {
-        const player = this.playerRepository.create({...createPlayerDto, userId});
+    async createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<Player> {
+        const existingPlayer = await this.playerEntityRepository.findOneBy({ uid: createPlayerDto.uid });
+
+        if (existingPlayer) {
+            throw new ConflictException("Player with this UID already exists");
+        }
+
+        const playerEntity = this.playerEntityRepository.create({... createPlayerDto, userId});
 
         try {
-            return await this.playerRepository.insert(player);
+            const playerEntitySaved = await this.playerEntityRepository.save(playerEntity);
+            return mapEntityToPlayer(playerEntitySaved);
 
         } catch(error) {
-            if (error.code == 23505) {
-                throw new ConflictException("UID already exists");
-            }
-
-            throw new InternalServerErrorException("Failed to create Player");
+            throw new InternalServerErrorException("Failed to create player");
         }
     }
 
     // READ
-    getUserById(userId: string): Promise<Player[]> {
-        return this.playerRepository.findBy({ userId });
+    async getUserById(userId: string): Promise<Player[]> {
+        const playerEntities = await this.playerEntityRepository.findBy({ userId });
+        return playerEntities.map(mapEntityToPlayer);
     }
 
-    getPlayerById(uid: string): Promise<Player> {
-        return this.playerRepository.findOneByOrFail({ uid });
+    async getPlayerById(uid: string): Promise<Player> {
+        const playerEntity = await this.playerEntityRepository.findOneByOrFail({ uid });
+        return mapEntityToPlayer(playerEntity);
     }
 
     // UPDATE
     async updatePlayerById(id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
-        const player = await this.playerRepository.findOneBy({ id });
-        if(!player) {
+        const playerEntity = await this.playerEntityRepository.findOneBy({ id });
+        if(!playerEntity) {
             throw new NotFoundException("Player Not Found");
         }
 
-        if(updatePlayerDto.uid && updatePlayerDto.uid !== player.uid) {
-            const existing = await this.playerRepository.findOneBy( {uid: updatePlayerDto.uid} );
+        if(updatePlayerDto.uid && updatePlayerDto.uid !== playerEntity.uid) {
+            const existingPlayer = await this.playerEntityRepository.findOneBy( {uid: updatePlayerDto.uid} );
 
-            if (existing && existing.id !== player.id) {
+            if (existingPlayer && existingPlayer.id !== playerEntity.id) {
                 throw new ConflictException("UID already in use by another player");
             }
         }
 
-        Object.assign(player, updatePlayerDto);
-        return this.playerRepository.save(player);
+        Object.assign(playerEntity, updatePlayerDto);
+        
+        try {
+            const playerEntityUpdated = await this.playerEntityRepository.save(playerEntity);
+            return mapEntityToPlayer(playerEntityUpdated);
+
+        } catch(error) {
+            throw new InternalServerErrorException("Failed to update player");
+        }
     }
 
     // DELETE
-    async deletePLayerById(id: string): Promise<DeleteResult> {
-        const deletedPlayer = await this.playerRepository.delete({ id });
+    async deletePlayerById(id: string): Promise<{message: string}> {
+        const deletedPlayer = await this.playerEntityRepository.delete({ id });
         
         if(deletedPlayer.affected === 0) {
             throw new NotFoundException("Player not found");
         }
 
-        return deletedPlayer;
+        return {message: "Player deleted successfuly"};
     }
 }

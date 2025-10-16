@@ -1,9 +1,8 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
-import { InsertResult } from 'typeorm';
 import { ApiBody, ApiOperation, ApiTags, ApiParam } from '@nestjs/swagger';
-import { Player } from './entity/player.entity';
+import { Player } from '../../../shared/player.shared';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @ApiTags("player")
@@ -18,7 +17,7 @@ export class PlayerController {
     @Post()
     @ApiOperation({ summary: "Create a new player" })
     @ApiBody({ type: CreatePlayerDto })
-    async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<InsertResult> {
+    async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
         return await this.playerService.createPlayer(createPlayerDto, this.hardCodedId1); // HARD CODED USERID
     }
 
@@ -32,7 +31,7 @@ export class PlayerController {
     @Get(":uid")
     @ApiParam({name: "uid", type: String, description: "UID of the player"})
     @ApiOperation({ summary: "Get a player from user"})
-    async getPlayer(@Param("uid") uid: string) {
+    async getPlayer(@Param("uid") uid: string): Promise<Player> {
         return await this.playerService.getPlayerById(uid);
     }
 
@@ -49,7 +48,7 @@ export class PlayerController {
     @Delete(":id")
     @ApiParam({name: "id", type: String, description: "ID of player to delete"})
     @ApiOperation({summary: "Delete player"})
-    async deletePlayer(@Param("id") id: string) {
-        return await this.playerService.deletePLayerById(id);
+    async deletePlayer(@Param("id") id: string): Promise<{message: string}> {
+        return await this.playerService.deletePlayerById(id);
     }
 }
