@@ -22,7 +22,7 @@ export class PlayerController {
     @ApiOperation({ summary: "Create a new player" })
     @ApiBody({ type: CreatePlayerDto })
     async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
-        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedUserId1); // HARD CODED USERID
+        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedUserId2); // HARD CODED USERID
     }
 
     // READ

@@ -10,11 +10,12 @@ async function bootstrap() {
     .setTitle('Star Rail Dashboard API')
     .setDescription('API for managing user data for the Star Rail Dashboard')
     .setVersion('1.0.0')
+    .addServer('/api')
     .addTag('player')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
 
   app.setGlobalPrefix('api');
 

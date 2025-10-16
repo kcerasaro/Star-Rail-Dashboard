@@ -1,0 +1,41 @@
+.player-widget {
+  background: linear-gradient(135deg, #4A6EA5 0%, #3D5A8C 100%);
+  color: #E0E0E0;           
+  border: 2px solid rgba(61, 43, 107, 0.4);
+  border-radius: 16px;
+  padding: 0.75rem;
+  min-height: 30px;
+  min-width: 180px;
+  box-shadow:
+    4px 4px 0 #4A3A7A,
+    0 8px 24px rgba(28, 46, 74, 0.4),
+    0 0 20px rgba(74, 110, 165, 0.15);
+  position: relative;
+  overflow: auto;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.player-widget p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.player-widget #name {
+  font-size: 1.75rem;
+  color: #F0F0F0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+.player-widget #uid {
+  font-size: 1.25rem;
+  color: #D1D5DB;
+}
+
+.player-widget #region {
+  font-size: 0.85rem;
+  color: #D1D5DB;
+  font-style: italic;
+}
