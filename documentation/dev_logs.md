@@ -1,16 +1,21 @@
-## 14 October 2025
+Jump to [template](https://github.com/kcerasaro/Star-Rail-Dashboard/blob/HEAD/documentation/dev_logs.md#template)
+
+# 2025
+## October
+### 14 October 2025
 - What I did
     - Implementented Update for Player
     - Implemented Delete for Player
     - Created shared enum and type for Player
     - Refactored Player module to  use shared Player type
+    - Update dev_logs formatting to account for future development
 - What I learned
     - != checks value while !== checks type and value
     - Previously, API responses returned raw database entities, which tightly coupled the frontend to the backend's internal schema. By introducing shared types, the backend transforms those entities into clean, consistent objects before sending them to the frontend. This decouples the API from the database and allows both frontend and backend to rely on the same type definitions, making data handling, validation, and integration much easier and more reliable.
 - Known Issues
     - here
 
-## 14 October 2025
+### 14 October 2025
 - What I did
     - Started the implementation of Update and Delete Player
 - What I learned
@@ -19,7 +24,7 @@
 - Known Issues
     - Docker command in root readme to remove the module volumes does not work
 
-## 13 October 2025
+### 13 October 2025
 - What I did
     - Optimized Docker environment
     - Connected backend to database via TypeORM
@@ -35,7 +40,7 @@
 - Known Issues
     - None
 
-## 10 October 2025
+### 10 October 2025
 - What I did
     - Decided on first version of color palette
     - Began initial planning of feature #3
@@ -47,7 +52,7 @@
 - Known Issues
     - Web app does not update when files are saved. Frontend Docker container must be restarted to see change
 
-## 09 October 2025
+### 09 October 2025
 - What I did
     - Decided on monorepo for web app project
     - Defined starting features
@@ -63,13 +68,13 @@
 - Known Issues
     - None
 
-## Previously:
+### Previously:
 - Learned the basics of NestJS through building a REST API with PostgreSQL through following a tutorial to create a simple task list
 - Learned how to create GET, POST, and DELETE requests in Postman
 - Learned how to create a Docker container to run a NestJS app and a PostgreSQL server
 
 # TEMPLATE
-## Date
+### Date
 - What I did
     - here
 - What I learned
