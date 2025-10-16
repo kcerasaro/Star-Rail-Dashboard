@@ -5,7 +5,7 @@ import { Player } from '../../../shared/player.shared';
 import { PlayerEntity } from './entity/player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { mapEntityToPlayer } from './player.mapper';
+import { mapEntityToPlayer } from './mappers/player.mapper';
 
 @Injectable()
 export class PlayerService {
@@ -37,8 +37,8 @@ export class PlayerService {
         return playerEntities.map(mapEntityToPlayer);
     }
 
-    async getPlayerById(uid: string): Promise<Player> {
-        const playerEntity = await this.playerEntityRepository.findOneByOrFail({ uid });
+    async getPlayerById(id: string): Promise<Player> {
+        const playerEntity = await this.playerEntityRepository.findOneByOrFail({ id });
         return mapEntityToPlayer(playerEntity);
     }
 

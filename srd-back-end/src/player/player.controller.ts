@@ -28,11 +28,11 @@ export class PlayerController {
         return await this.playerService.getUserById(this.hardCodedId1); // HARD CODED USERID
     }
 
-    @Get(":uid")
-    @ApiParam({name: "uid", type: String, description: "UID of the player"})
+    @Get(":id")
+    @ApiParam({name: "id", type: String, description: "ID of the player"})
     @ApiOperation({ summary: "Get a player from user"})
-    async getPlayer(@Param("uid") uid: string): Promise<Player> {
-        return await this.playerService.getPlayerById(uid);
+    async getPlayer(@Param("id") id: string): Promise<Player> {
+        return await this.playerService.getPlayerById(id);
     }
 
     // UPDATE
