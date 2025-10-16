@@ -9,12 +9,16 @@ Jump to [template](#template)
     - Created shared enum and type for Player
     - Refactored Player module to  use shared Player type
     - Update dev_logs formatting to account for future development
+    - Began frontend development of PlayerWidget
 - What I learned
     - != checks value while !== checks type and value
     - Previously, API responses returned raw database entities, which tightly coupled the frontend to the backend's internal schema. By introducing shared types, the backend transforms those entities into clean, consistent objects before sending them to the frontend. This decouples the API from the database and allows both frontend and backend to rely on the same type definitions, making data handling, validation, and integration much easier and more reliable.
     - React components favor composition over inheritance: child components dont inherit their parent component like classes do. In other words, it's a "has-a" relationship instead of "is-a" relationship. This is done through nesting child components inside their parent component folder. To use it, import the component and call `<ChildComponent />`. To use the parent widget's basic structure, do `<ParentComponent> <ChildComponent /> <ParentComponent>`. The logic will be implemented in `ChildComponent.tsx`.
+    - props (properties) are immutable. They contain read-only values that are passed from the parent component to the child. If a component fetches its own data, props are not needed.
+    - useEffect(lambda, []): the [] is a dependency array. It tells useEffect to run every time whatever is in this array changes. When empty, the effect runs only once when the component first mounts (added to DOM for the first time)
 - Known Issues
     - Docker command in root readme to remove the module volumes does not work
+    - Axios on frontend cannot get data from backend- port issues?
 
 ### 14 October 2025
 - What I did
