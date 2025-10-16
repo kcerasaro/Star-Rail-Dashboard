@@ -15,7 +15,8 @@ RUN pnpm install
 
 COPY ./srd-front-end/ ./
 
-EXPOSE 5173
+# EXPOSE 5173
+EXPOSE 3000
 
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["pnpm", "run", "dev", "--", "--host"]
