@@ -10,29 +10,33 @@ import { UpdatePlayerDto } from './dtos/update-player.dto';
 export class PlayerController {
     constructor(private readonly playerService: PlayerService){}
     // HARD CODED USERIDS FOR TESTING. WILL BE UPDATED IF/WHEN USER AUTHENTICATION IS IMPLEMENTED
-    private readonly hardCodedId1 = "11111-11111-11111";
-    private readonly hardCodedId2 = "22222-22222-22222";
+    private readonly hardCodedUserId1 = "11111-11111-11111";
+    private readonly hardCodedUserId2 = "22222-22222-22222";
+
+    // HARD CODED PLAYER IDS FOR TESTING. WILL BE UPDATED WHEN SWITCHING PLAYERS IS IMPLEMENTED
+    private readonly hardCodedId1 = "94fd978d-c546-4859-bb36-a17e3e384e1c"; // Otter, 802921001, Asia
+    private readonly hardCodedId2 = "4953d0c7-15a5-4ee5-8524-90b168eac064"; // Otter, 602921001, America
 
     // CREATE
     @Post()
     @ApiOperation({ summary: "Create a new player" })
     @ApiBody({ type: CreatePlayerDto })
     async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
-        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedId1); // HARD CODED USERID
+        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedUserId1); // HARD CODED USERID
     }
 
     // READ
     @Get()
     @ApiOperation({ summary: "Get all players from user"})
     async getAllPlayers(): Promise<Player[]> {
-        return await this.playerService.getUserById(this.hardCodedId1); // HARD CODED USERID
+        return await this.playerService.getUserById(this.hardCodedUserId1); // HARD CODED USERID
     }
 
     @Get(":id")
     @ApiParam({name: "id", type: String, description: "ID of the player"})
     @ApiOperation({ summary: "Get a player from user"})
     async getPlayer(@Param("id") id: string): Promise<Player> {
-        return await this.playerService.getPlayerById(id);
+        return await this.playerService.getPlayerById(this.hardCodedId2); // HARD CODED ID
     }
 
     // UPDATE
