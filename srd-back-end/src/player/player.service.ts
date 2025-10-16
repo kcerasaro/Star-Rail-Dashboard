@@ -2,9 +2,9 @@ import { ConflictException, Injectable, InternalServerErrorException, NotFoundEx
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from '../../../shared/player.shared';
-import { PlayerEntity } from './entity/player.entity';
-import { CreatePlayerDto } from './dto/create-player.dto';
-import { UpdatePlayerDto } from './dto/update-player.dto';
+import { PlayerEntity } from './entities/player.entity';
+import { CreatePlayerDto } from './dtos/create-player.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { mapEntityToPlayer } from './mappers/player.mapper';
 
 @Injectable()

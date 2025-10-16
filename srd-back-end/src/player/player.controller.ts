@@ -1,9 +1,9 @@
 import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
 import { PlayerService } from './player.service';
-import { CreatePlayerDto } from './dto/create-player.dto';
+import { CreatePlayerDto } from './dtos/create-player.dto';
 import { ApiBody, ApiOperation, ApiTags, ApiParam } from '@nestjs/swagger';
 import { Player } from '../../../shared/player.shared';
-import { UpdatePlayerDto } from './dto/update-player.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 
 @ApiTags("player")
 @Controller("player")
