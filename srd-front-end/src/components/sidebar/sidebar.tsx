@@ -1,9 +1,11 @@
 import './Sidebar.css';
+import Widget from '../widget/widget';
+import PlayerWidget from '../playerWidget/playerWidget';
 
 function Sidebar() {
   return (
     <aside className="sidebar">
-      <h2 className="sidebar-title">Feature #6 here</h2>
+        <PlayerWidget/>
       <nav className="sidebar-nav">
       </nav>
     </aside>

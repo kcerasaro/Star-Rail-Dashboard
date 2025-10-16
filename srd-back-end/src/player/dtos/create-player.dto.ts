@@ -5,7 +5,6 @@ import { Region } from '../../../../shared/player.shared';
 export class CreatePlayerDto {
     @IsNotEmpty()
     @IsString()
-    // @MaxLength(14, {message: 'Name must be 14 characters or fewer'})
     @ApiProperty({example: "Otter", description: "In-game name of the player"})
     name: string;
 

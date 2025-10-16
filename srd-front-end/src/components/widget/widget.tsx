@@ -1,10 +1,16 @@
 import './Widget.css';
+import { ReactNode } from 'react';
 
-function Widget({ title }: { title: string }) {
+type WidgetProps = {
+  title?: string;
+  children?: ReactNode;
+};
+
+function Widget({ title, children }: WidgetProps) {
   return (
     <div className="widget">
-      <h3>{title}</h3>
-      <p>Content goes here...</p>
+      {title && <h3>{title}</h3>}
+      {children}
     </div>
   );
 }

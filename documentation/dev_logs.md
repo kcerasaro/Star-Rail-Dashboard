@@ -2,7 +2,16 @@ Jump to [template](#template)
 
 # 2025
 ## October
-### 14 October 2025
+### 16 October 2025
+- What I did
+    - Fixed ports issues when connecting the frontend to the backend
+    - Implemented the basics of the PlayerWidget: display namme, uid, and region
+- What I learned
+    - here
+- Known Issues
+    - None
+
+### 15 October 2025
 - What I did
     - Implementented Update for Player
     - Implemented Delete for Player
