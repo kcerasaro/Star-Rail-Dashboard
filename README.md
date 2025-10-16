@@ -31,7 +31,7 @@ After downloading modules locally, take down the modules volumes.
 > IMPORTANT: Deleting the `pgdata` volume will delete all database data
 ```
 # Remove only node_modules volumes (safe for dependency resets)
-docker compose down -v backend_node_modules frontend_node_modules
+docker volume rm star-rail-dashboard_frontend_node_modules star-rail-dashboard_backend_node_modules
 
 # Stop all containers (preserves volumes unless -v is used)
 docker compose down
