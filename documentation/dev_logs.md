@@ -1,4 +1,4 @@
-Jump to [template](https://github.com/kcerasaro/Star-Rail-Dashboard/blob/HEAD/documentation/dev_logs.md#template)
+Jump to [template](#template)
 
 # 2025
 ## October
