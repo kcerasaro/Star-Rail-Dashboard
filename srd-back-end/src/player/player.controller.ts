@@ -45,7 +45,7 @@ export class PlayerController {
     @ApiBody({type: UpdatePlayerDto})
     @ApiOperation({summary: "Update player name, uid, and/or region"})
     async updatePlayer(@Param("id") id: string,@Body()  updatePlayerDto: UpdatePlayerDto): Promise<Player> {
-        return await this.playerService.updatePlayerById(id, updatePlayerDto);
+        return await this.playerService.updatePlayerById(this.hardCodedId2, updatePlayerDto);// HARD CODED ID
     }
 
     // DELETE

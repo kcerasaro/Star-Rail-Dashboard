@@ -6,10 +6,14 @@ Jump to [template](#template)
 - What I did
     - Fixed ports issues when connecting the frontend to the backend
     - Implemented the basics of the PlayerWidget: display namme, uid, and region
+    - Implemented edit feature for PlayerWidget
 - What I learned
-    - here
+    - How to dynamically show content inside a component based on status
+    = How to use axios to make an API request
 - Known Issues
-    - None
+    - Player uid can be set to shorter than 9 digits 
+    - Error is not thrown when editing uid from frontend and letters and/or 10+ digits are submitted
+    - Error is not thrown when region is entered incorrectly (change from intput to dropdown)
 
 ### 15 October 2025
 - What I did
