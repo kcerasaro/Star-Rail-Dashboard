@@ -73,7 +73,7 @@ function PlayerWidget() {
 
     const display = isEditing ? editedPlayer : player;
 
-    
+
   return (
     <div className="player-widget">
       <button id="editConfirm" onClick={editPlayerInformation}>{isEditing? "confirm" : "edit"}</button>
@@ -81,26 +81,26 @@ function PlayerWidget() {
     <>
     <div className = "input-group">
         <input
-              id="inputField"
+              className="inputField"
               value={display?.name || ''}
               onChange={(e) => handleChange('name', e.target.value)}
             />
             <input
-              id="inputField"
+              className="inputField"
               value={display?.uid || ''}
               onChange={(e) => handleChange('uid', e.target.value)}
             />
-            <input
-              id="regionInput"
-              list="region-options"
+            <select
+              className="inputField"
               value={display?.region || ''}
               onChange={(e) => handleChange('region', e.target.value)}
-            />
-            <datalist id="region-options">
+            >
               {regionOptions.map((region) => (
-                <option key={region} value={region} />
+                <option key={region} value={region}>
+                  {region}
+                </option>
               ))}
-            </datalist>
+            </select>
             {errorMessage && (
               <div className="errorMessage">
                 {errorMessage}

@@ -10,8 +10,8 @@ Jump to [template](#template)
 - What I learned
     - How to dynamically show content inside a component based on status
     = How to use axios to make an API request
+    - Think critically about what features can be turned into components. Things even as simple as styled input fields/dropdown menus that will be used throughout the web app can be turned into components
 - Known Issues
-    - Error is not thrown when region is entered incorrectly (change from intput to dropdown)
     - Cancel edit needs to be implemented
 
 ### 15 October 2025
