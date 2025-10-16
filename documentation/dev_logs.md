@@ -14,6 +14,7 @@ Jump to [template](#template)
     - Player uid can be set to shorter than 9 digits 
     - Error is not thrown when editing uid from frontend and letters and/or 10+ digits are submitted
     - Error is not thrown when region is entered incorrectly (change from intput to dropdown)
+    - Cancel edit needs to be implemented
 
 ### 15 October 2025
 - What I did
