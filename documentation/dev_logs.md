@@ -2,6 +2,13 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 17 October 2025
+- What I did
+    - Added Storybook to help with development of individual components
+- What I learned
+    - here
+- Known Issues
+    - here
 ### 16 October 2025
 - What I did
     - Fixed ports issues when connecting the frontend to the backend
