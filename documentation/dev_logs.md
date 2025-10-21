@@ -2,13 +2,22 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 21 October 2025
+- What I did
+    - Implemented InputField component
+    - Refactored PlayerWidget to use the InputField component
+    - Removed user-facing error widgets for now
+- What I learned
+    - Do not forget these shared components can do some logic, but it should only pertain to that component itself. Ex: have logic in the InputField component to display what the user types, but handle any confirmation of the entered fields in the PlayerWidget.
+- Known Issues
+    - here
 ### 17 October 2025
 - What I did
     - Added Storybook to help with development of individual components
 - What I learned
-    - here
+    - The tool Storybook: settinhg up the files, how to use, purpose of each file
 - Known Issues
-    - here
+    - None
 ### 16 October 2025
 - What I did
     - Fixed ports issues when connecting the frontend to the backend

@@ -31,16 +31,18 @@ pnpm run storybook
 
 Then visit: http://localhost:6006
 
-To create a `.stories.tsx` file for a component, run:
+To create a `.stories.tsx` file for a component, manually add the file in the same folder as the component. Here is a basic example:
 ```
-# from srd-front-end
-pnpm exec storybook-genie src/components/shared/<ComponentFolder>/<Component>.tsx
+import Component from './Component';
 
-# alternatively, run from the shared folder
-pnpm exec storybook-genie <ComponentFolder>/<Component>.tsx
+export default {
+  title: 'Shared/Component',
+  component: Component,
+};
 
+export const Default = () => <Component />;
 ```
-> When making changes to imports, component names, or props- `.stories.tsx` may break. This can be updated manually. Alternatively, delete teh `.stories.tsx`and regenerate with the same command from above
+> When making changes to imports, component names, or props- `.stories.tsx` may break. Be sure to check this file and update as needed.
 ```
 srd-front-end/
 ├── .storybook/
