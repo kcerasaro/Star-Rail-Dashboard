@@ -2,6 +2,13 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 25 October 2025
+- What I did
+    - Implemented SelectFieldComponent
+- What I learned
+    - How to use generic types in Typescript through- important for the select field as several dropdowns will be implemented, but different enums will be given
+- Known Issues
+    - here
 ### 21 October 2025
 - What I did
     - Implemented InputField component
@@ -10,7 +17,7 @@ Jump to [template](#template)
 - What I learned
     - Do not forget these shared components can do some logic, but it should only pertain to that component itself. Ex: have logic in the InputField component to display what the user types, but handle any confirmation of the entered fields in the PlayerWidget.
 - Known Issues
-    - here
+    - None
 ### 17 October 2025
 - What I did
     - Added Storybook to help with development of individual components
