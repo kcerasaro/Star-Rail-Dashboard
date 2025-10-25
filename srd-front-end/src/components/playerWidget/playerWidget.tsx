@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Copy, Check } from "lucide-react";
 import "./playerWidget.css";
 import { Player, Region } from "../../../../shared/player.shared";
 import InputField from "../shared/inputField/inputField";
@@ -11,6 +12,7 @@ function PlayerWidget() {
   const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const regionOptions = Object.values(Region);
 
@@ -132,6 +134,14 @@ function PlayerWidget() {
   };
   const display = isEditing ? editedPlayer : player;
 
+  const copyUidToClipboard = () => {
+    if(player?.uid) {
+      navigator.clipboard.writeText(player.uid);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
   return (
     <div className="player-widget">
       {isEditing ? (
@@ -148,7 +158,7 @@ function PlayerWidget() {
           edit
         </button>
       )}
-      
+
       {error && (
         <div className="error-banner">
           <span className="error-message">{error}</span>
@@ -168,7 +178,7 @@ function PlayerWidget() {
               onChange={(value) => handleChange("uid", value)}
               placeholder="UID (9 digits)"
             />
-            <SelectField 
+            <SelectField
               value={display?.region || ""}
               onChange={(value) => handleChange("region", value)}
               options={regionOptions}
@@ -179,7 +189,12 @@ function PlayerWidget() {
       ) : (
         <>
           <p id="name">{player.name}</p>
-          <p id="uid">{player.uid}</p>
+          <div className="uid-container">
+            <p id="uid">{player.uid}</p>
+            <button className="copy-button" onClick={copyUidToClipboard}>
+              {copied ? <Check size={16} /> : <Copy size={16} />}
+            </button>
+          </div>
           <p id="region">({player.region})</p>
         </>
       )}

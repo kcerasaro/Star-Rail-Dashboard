@@ -83,3 +83,29 @@
   font-weight: bold;
   line-height: 1;
 }
+
+.player-widget .uid-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.player-widget .copy-button {
+  background-color: transparent;
+  border: none;
+  color: #D1D5DB;
+  cursor: pointer;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.player-widget .copy-button:hover {
+  color: #F0F0F0;
+}
+
+.player-widget .copy-button:active {
+  transform: scale(0.75);
+}
