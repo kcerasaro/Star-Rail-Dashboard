@@ -10,6 +10,7 @@ function PlayerWidget() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const regionOptions = Object.values(Region);
 
@@ -38,37 +39,70 @@ function PlayerWidget() {
   const editPlayerInformation = () => {
     setEditedPlayer(player);
     setIsEditing(true);
+    setError(null);
   };
 
   const confirmEdit = () => {
-    if (editedPlayer) {
-      axios
-        .patch(`${import.meta.env.VITE_API_URL}/player/123`, {
-          name: editedPlayer.name,
-          uid: editedPlayer.uid,
-          region: editedPlayer.region,
-        })
-        .then((res) => {
-          setPlayer(res.data);
-          setEditedPlayer(null);
-          setIsEditing(false);
-        })
-        .catch((err) => {
-          if (err.response && err.response.data && err.response.data.message) {
-            const msg = Array.isArray(err.response.data.message)
-              ? err.response.data.message.join(", ")
-              : err.response.data.message;
-            console.log(msg);
-          } else {
-            console.log("An unexpected error occurred.");
-          }
-        });
+    // validate data
+    if (!editedPlayer) {
+      return;
     }
+
+    const uidError = validateUid(editedPlayer.uid);
+    if (uidError) {
+      setError(uidError);
+      return;
+    }
+
+    if (!editedPlayer.name || editedPlayer.name.trim() === "") {
+      setError("Name is required");
+      return;
+    }
+
+    if (!editedPlayer.region || editedPlayer.region.trim() === "") {
+      setError("Region is required");
+      return;
+    }
+
+    setError(null);
+
+    // send data to backend
+    axios
+      .patch(`${import.meta.env.VITE_API_URL}/player/123`, {
+        name: editedPlayer.name,
+        uid: editedPlayer.uid,
+        region: editedPlayer.region,
+      })
+      .then((res) => {
+        setPlayer(res.data);
+        setEditedPlayer(null);
+        setIsEditing(false);
+        setError(null);
+      })
+      .catch((err) => {
+        if (err.response && err.response.data && err.response.data.message) {
+          const msg = Array.isArray(err.response.data.message)
+            ? err.response.data.message.join(", ")
+            : err.response.data.message;
+
+          if (
+            msg.toLowerCase().includes("uid") &&
+            msg.toLowerCase().includes("taken")
+          ) {
+            setError("This UID is already registered");
+          } else {
+            setError(msg);
+          }
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      });
   };
 
   const cancelEdit = () => {
     setEditedPlayer(null);
     setIsEditing(false);
+    setError(null);
   };
 
   const handleChange = (field: keyof Player, value: string) => {
@@ -77,8 +111,25 @@ function PlayerWidget() {
     }
 
     setEditedPlayer({ ...editedPlayer, [field]: value });
+
+    if (error) {
+      setError(null);
+    }
   };
 
+  const validateUid = (uid: string): string | null => {
+    const uidPattern = /^\d{9}$/;
+
+    if (!uid || uid.trim() === "") {
+      return "uid is required";
+    }
+
+    if (uid.length != 9 || !uidPattern.test(uid)) {
+      return "invalid UID";
+    }
+
+    return null;
+  };
   const display = isEditing ? editedPlayer : player;
 
   return (
@@ -97,6 +148,13 @@ function PlayerWidget() {
           edit
         </button>
       )}
+      
+      {error && (
+        <div className="error-banner">
+          <span className="error-message">{error}</span>
+        </div>
+      )}
+
       {isEditing ? (
         <>
           <div className="input-group">
@@ -108,7 +166,7 @@ function PlayerWidget() {
             <InputField
               value={display?.uid || ""}
               onChange={(value) => handleChange("uid", value)}
-              placeholder="UID"
+              placeholder="UID (9 digits)"
             />
             <SelectField 
               value={display?.region || ""}
