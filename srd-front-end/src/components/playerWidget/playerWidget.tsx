@@ -36,7 +36,12 @@ function PlayerWidget() {
 
   // edit player info
   const editPlayerInformation = () => {
-    if (isEditing && editedPlayer) {
+    setEditedPlayer(player);
+    setIsEditing(true);
+  };
+
+  const confirmEdit = () => {
+    if (editedPlayer) {
       axios
         .patch(`${import.meta.env.VITE_API_URL}/player/123`, {
           name: editedPlayer.name,
@@ -46,6 +51,7 @@ function PlayerWidget() {
         .then((res) => {
           setPlayer(res.data);
           setEditedPlayer(null);
+          setIsEditing(false);
         })
         .catch((err) => {
           if (err.response && err.response.data && err.response.data.message) {
@@ -57,11 +63,12 @@ function PlayerWidget() {
             console.log("An unexpected error occurred.");
           }
         });
-    } else {
-      setEditedPlayer(player);
     }
+  };
 
-    setIsEditing(!isEditing);
+  const cancelEdit = () => {
+    setEditedPlayer(null);
+    setIsEditing(false);
   };
 
   const handleChange = (field: keyof Player, value: string) => {
@@ -76,9 +83,20 @@ function PlayerWidget() {
 
   return (
     <div className="player-widget">
-      <button id="editConfirm" onClick={editPlayerInformation}>
-        {isEditing ? "confirm" : "edit"}
-      </button>
+      {isEditing ? (
+        <div className="button-group">
+          <button id="cancel" onClick={cancelEdit}>
+            cancel
+          </button>
+          <button id="confirm" onClick={confirmEdit}>
+            confirm
+          </button>
+        </div>
+      ) : (
+        <button id="edit" onClick={editPlayerInformation}>
+          edit
+        </button>
+      )}
       {isEditing ? (
         <>
           <div className="input-group">
@@ -95,9 +113,9 @@ function PlayerWidget() {
             <SelectField 
               value={display?.region || ""}
               onChange={(value) => handleChange("region", value)}
-              options= {regionOptions}
+              options={regionOptions}
               placeholder="Region"
-              />
+            />
           </div>
         </>
       ) : (

@@ -40,16 +40,30 @@
   font-style: italic;
 }
 
-.player-widget #editConfirm {
+.player-widget #edit,
+.player-widget #confirm,
+.player-widget #cancel {
   font-size: 0.8rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  color:#D1D5DB;
+  color: #D1D5DB;
   background-color: transparent;
   border: none;
   text-decoration: underline;
-  padding: 8px;
+  padding: 8px 6px;
+  cursor: pointer;
+}
+
+.player-widget .button-group {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  /* gap: 0.01rem; */
+}
+
+.player-widget #edit {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .player-widget .input-group {
