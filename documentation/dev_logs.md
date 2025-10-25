@@ -5,6 +5,7 @@ Jump to [template](#template)
 ### 25 October 2025
 - What I did
     - Implemented SelectFieldComponent
+    - Refactored PlayerWidget to use the SelectField component
 - What I learned
     - How to use generic types in Typescript through- important for the select field as several dropdowns will be implemented, but different enums will be given
 - Known Issues

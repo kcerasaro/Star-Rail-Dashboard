@@ -3,6 +3,7 @@ import axios from "axios";
 import "./playerWidget.css";
 import { Player, Region } from "../../../../shared/player.shared";
 import InputField from "../shared/inputField/inputField";
+import SelectField from "../shared/selectField/selectField";
 
 function PlayerWidget() {
   // states
@@ -91,17 +92,12 @@ function PlayerWidget() {
               onChange={(value) => handleChange("uid", value)}
               placeholder="UID"
             />
-            <select
-              className="inputField"
+            <SelectField 
               value={display?.region || ""}
-              onChange={(e) => handleChange("region", e.target.value)}
-            >
-              {regionOptions.map((region) => (
-                <option key={region} value={region}>
-                  {region}
-                </option>
-              ))}
-            </select>
+              onChange={(value) => handleChange("region", value)}
+              options= {regionOptions}
+              placeholder="Region"
+              />
           </div>
         </>
       ) : (
