@@ -65,7 +65,7 @@ describe("PlayerService", () => {
             }));
         });
 
-        it("should throw ConflicrException if UID already exists", async () => {
+        it("should throw ConflictException if UID already exists", async () => {
             expect("temp").toEqual("temp");
 
         });
