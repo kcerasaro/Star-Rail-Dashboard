@@ -15,7 +15,7 @@
 | `toEqual(value)`             | Deep equality                     | `expect(result).toEqual(expected)` |
 | `toBe(value)`                | Primitive/reference equality      | `expect(flag).toBe(true)` |
 | `rejects.toThrow()`          | Async function throws             | `await expect(service.save()).rejects.toThrow()` |
-| `toMatchObject(obj)`         | Partial match on object structure | `expect(result).toMatchObject({ name: 'Otter' })` |
+| `toMatchObject(obj)`         | Partial match on object structure | `expect(result).toMatchObject({ name: 'User' })` |
 
 # Unit Test Flow
 1. Define input parameters
