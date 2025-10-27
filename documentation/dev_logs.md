@@ -2,17 +2,26 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### Date
+- What I did
+    - Researched testing tools and how I can possibly gain experience with AI and LLMs while working on this project. Deduced maybe a chat bot can be implemented in the future
+    - Wrote tests for createPlayer in the PlayerService
+- What I learned
+    - How write tests using Jest. `describe` allows for tests to be grouped together and organize `it` defines individual test cases. When testing service logic, database functions need to be mocked in order to not interfere with actual data. Mocked functions are manually configured to return specific values, allowing for the simulation of different behaviours to test how the code responds. 
+    - Here is the general flow of how a test should be written: (1) define the parameters, (2) define the expected value, (3) simulate the function's dependencies (for service, this is the repository methods), (4) call the function that is being tested, (5) verify each dependency was called correctly, (6) assert the final result
+- Known Issues
+    - None
 ### 25 October 2025
 - What I did
     - Implemented SelectFieldComponent
     - Refactored PlayerWidget to use the SelectField component
     - Added ability to cancel editing player information
     - Added error message to editing player information
-    - implented ability to copy uid to clipboard
+    - Implented ability to copy uid to clipboard
 - What I learned
     - How to use generic types in Typescript through- important for the select field as several dropdowns will be implemented, but different enums will be given
 - Known Issues
-    - here
+    - None
 ### 21 October 2025
 - What I did
     - Implemented InputField component
