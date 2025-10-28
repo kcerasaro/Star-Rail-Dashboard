@@ -4,6 +4,13 @@ Jump to [template](#template)
 ## October
 ### Date
 - What I did
+    - Added unit tests for getUserById in PlayerService
+- What I learned
+    - Think about where data is verified. Do you need to a test to verify the service is being passes a valid userId? Or should the controller have already validated that? It will probably be good to check something like this in the service- better safe than sorry. We don't really need to test if the data is in the valid format. Rather, test if it's null/empty or if it usable.
+- Known Issues
+    - here
+### Date
+- What I did
     - Researched testing tools and how I can possibly gain experience with AI and LLMs while working on this project. Deduced maybe a chat bot can be implemented in the future
     - Wrote tests for createPlayer in the PlayerService
 - What I learned
