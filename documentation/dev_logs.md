@@ -5,8 +5,10 @@ Jump to [template](#template)
 ### 29 October 2025
 - What I did
     - Updated PlayerService functions to validate input parameters
+    - Added createPlayer and getUserById tests for input paramater validation
 - What I learned
     - `typeof`: string, number, boolean, function, and undefined returned themselves as a string (ex: `string` returns `"string"`), and everything else returns `"object"` - even null. `!` checks null and undefined and null, so use `typeof` when checking that you're getting an object and not a string, number, etc.
+    - `as any` allows a value to bypass TypeScript's static type checks, enabling you to pass parameters that would normally be rejected by the compiler. This is especially useful in testing, where you want to simulate unpredictable or invalid runtime inputs.
 - Known Issues
     - here
 ### 28 October 2025

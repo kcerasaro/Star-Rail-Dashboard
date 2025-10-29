@@ -5,6 +5,7 @@ import { PlayerEntity } from './entities/player.entity';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { Region } from '../../../shared/player.shared';
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -112,6 +113,32 @@ describe('PlayerService', () => {
       });
       expect(mockRepo.save).toHaveBeenCalled();
     });
+
+    it('should throw BadRequestException for null createPlayerDto', async () => {
+      await expect(service.createPlayer(null as any, 'userId')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should throw BadRequestException for undefined createPlayerDto', async () => {
+      await expect(
+        service.createPlayer(undefined as any, 'userId'),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it('should throw BadRequestException for non-object createPlayerDto', async () => {
+      await expect(
+        service.createPlayer('not-an-object' as any, 'userId'),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it('should throw BadRequestException for empty userId', async () => {
+      await expect(service.createPlayer(dto, '')).rejects.toThrow(BadRequestException);
+    });
+
+    it('should throw BadRequestException for null userId', async () => {
+      await expect(service.createPlayer(dto, null as any)).rejects.toThrow(BadRequestException);
+    });
   });
 
   // getUserById
@@ -128,7 +155,7 @@ describe('PlayerService', () => {
 
       const result = await service.getUserById('userId-2');
 
-      expect(mockRepo.findBy).toHaveBeenCalledWith({userId: 'userId-2'});
+      expect(mockRepo.findBy).toHaveBeenCalledWith({ userId: 'userId-2' });
 
       expect(result).toHaveLength(0);
     });
@@ -138,7 +165,7 @@ describe('PlayerService', () => {
 
       const result = await service.getUserById('userId-1');
 
-      expect(mockRepo.findBy).toHaveBeenCalledWith({userId: 'userId-1'});
+      expect(mockRepo.findBy).toHaveBeenCalledWith({ userId: 'userId-1' });
 
       expect(result).toHaveLength(1);
       expect(result.every((player) => player.userId === 'userId-1')).toBe(true);
@@ -156,7 +183,7 @@ describe('PlayerService', () => {
 
       const result = await service.getUserById('userId-1');
 
-      expect(mockRepo.findBy).toHaveBeenCalledWith({userId: 'userId-1'});
+      expect(mockRepo.findBy).toHaveBeenCalledWith({ userId: 'userId-1' });
       expect(result).toHaveLength(2);
       expect(result.every((player) => player.userId === 'userId-1')).toBe(true);
     });
@@ -173,12 +200,20 @@ describe('PlayerService', () => {
 
       const result = await service.getUserById('userId-1');
 
-      expect(mockRepo.findBy).toHaveBeenCalledWith({userId: 'userId-1'});
+      expect(mockRepo.findBy).toHaveBeenCalledWith({ userId: 'userId-1' });
       expect(result).toHaveLength(1);
       expect(result.every((player) => player.userId === 'userId-1')).toBe(true);
       expect(result.every((player) => player.userId === 'userId-2')).toBe(
         false,
       );
+    });
+
+    it('should  throw BadRequestException for empty userId', async () => {
+      await expect(service.getUserById('')).rejects.toThrow(BadRequestException);
+    });
+
+    it('should  throw BadRequestException for null userId', async () => {
+      await expect(service.getUserById(null as any)).rejects.toThrow(BadRequestException);
     });
   });
 
