@@ -35,6 +35,8 @@ export class PlayerService {
       throw new BadRequestException('Valid userId must be provided');
     }
 
+    userId = userId.trim();
+
     const existingPlayer = await this.playerEntityRepository.findOneBy({
       uid: createPlayerDto.uid,
     });
@@ -63,6 +65,8 @@ export class PlayerService {
       throw new BadRequestException('Valid userId must be provided');
     }
 
+    userId = userId.trim();
+
     const playerEntities = await this.playerEntityRepository.findBy({ userId });
     return playerEntities.map(mapEntityToPlayer);
   }
@@ -71,6 +75,8 @@ export class PlayerService {
     if (!id || id.trim() === '') {
       throw new BadRequestException('Valid id must be provided');
     }
+
+    id = id.trim();
 
     try {
       const playerEntity = await this.playerEntityRepository.findOneByOrFail({
@@ -96,6 +102,8 @@ export class PlayerService {
     if (!id || id.trim() === '') {
       throw new BadRequestException('Valid id must be provided');
     }
+
+    id = id.trim();
 
     const playerEntity = await this.playerEntityRepository.findOneBy({ id });
     if (!playerEntity) {
@@ -128,6 +136,8 @@ export class PlayerService {
     if (!id || id.trim() === '') {
       throw new BadRequestException('Valid id must be provided');
     }
+
+    id = id.trim();
 
     const deletedPlayer = await this.playerEntityRepository.delete({ id });
 

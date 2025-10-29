@@ -48,18 +48,18 @@ describe('PlayerService', () => {
       region: Region.AMERICA,
     };
 
-    it('should create a player', async () => {
-      const mockSavedPlayer: PlayerEntity = {
-        id: 'player-id',
-        userId: 'user-id',
-        name: 'player-name',
-        uid: '123456789',
-        region: Region.AMERICA,
-      };
+    const savedPlayer: PlayerEntity = {
+      id: 'player-id',
+      userId: 'user-id',
+      name: 'player-name',
+      uid: '123456789',
+      region: Region.AMERICA,
+    };
 
+    it('should create a player', async () => {
       mockRepo.findOneBy.mockResolvedValue(null);
       mockRepo.create.mockReturnValue({ ...dto, userId: 'user-id' });
-      mockRepo.save.mockResolvedValue(mockSavedPlayer);
+      mockRepo.save.mockResolvedValue(savedPlayer);
 
       const result = await service.createPlayer(dto, 'user-id');
 
@@ -70,7 +70,24 @@ describe('PlayerService', () => {
       });
       expect(mockRepo.save).toHaveBeenCalled();
 
-      expect(result).toEqual(mockSavedPlayer);
+      expect(result).toEqual(savedPlayer);
+    });
+
+    it('should create a player with trimmed userId', async () => {
+      mockRepo.findOneBy.mockResolvedValue(null);
+      mockRepo.create.mockReturnValue({ ...dto, userId: 'user-id' });
+      mockRepo.save.mockResolvedValue(savedPlayer);
+
+      const result = await service.createPlayer(dto, '   user-id   ');
+
+      expect(mockRepo.findOneBy).toHaveBeenCalledWith({ uid: dto.uid });
+      expect(mockRepo.create).toHaveBeenCalledWith({
+        ...dto,
+        userId: 'user-id',
+      });
+      expect(mockRepo.save).toHaveBeenCalled();
+
+      expect(result).toEqual(savedPlayer);
     });
 
     it('should throw ConflictException if UID already exists', async () => {
@@ -211,6 +228,17 @@ describe('PlayerService', () => {
       );
     });
 
+    it('should return 1 player with trimmed userId userId-1', async () => {
+      mockRepo.findBy.mockResolvedValue([user1a]);
+
+      const result = await service.getUserById('   userId-1   ');
+
+      expect(mockRepo.findBy).toHaveBeenCalledWith({ userId: 'userId-1' });
+
+      expect(result).toHaveLength(1);
+      expect(result.every((player) => player.userId === 'userId-1')).toBe(true);
+    });
+
     it('should throw BadRequestException for empty userId', async () => {
       await expect(service.getUserById('')).rejects.toThrow(
         BadRequestException,
@@ -238,6 +266,18 @@ describe('PlayerService', () => {
       mockRepo.findOneByOrFail.mockResolvedValue(player);
 
       const result = await service.getPlayerById('player-id');
+
+      expect(mockRepo.findOneByOrFail).toHaveBeenCalledWith({
+        id: 'player-id',
+      });
+
+      expect(result).toEqual(player);
+    });
+
+    it('should return 1 player with trimmed id', async () => {
+      mockRepo.findOneByOrFail.mockResolvedValue(player);
+
+      const result = await service.getPlayerById('   player-id   ');
 
       expect(mockRepo.findOneByOrFail).toHaveBeenCalledWith({
         id: 'player-id',
