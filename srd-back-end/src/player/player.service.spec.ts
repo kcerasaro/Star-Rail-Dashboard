@@ -8,6 +8,7 @@ import {
   BadRequestException,
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 
 describe('PlayerService', () => {
@@ -18,6 +19,7 @@ describe('PlayerService', () => {
     create: jest.fn(),
     save: jest.fn(),
     findBy: jest.fn(),
+    findOneByOrFail: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -68,13 +70,7 @@ describe('PlayerService', () => {
       });
       expect(mockRepo.save).toHaveBeenCalled();
 
-      expect(result).toEqual(
-        expect.objectContaining({
-          name: 'player-name',
-          uid: '123456789',
-          region: Region.AMERICA,
-        }),
-      );
+      expect(result).toEqual(mockSavedPlayer);
     });
 
     it('should throw ConflictException if UID already exists', async () => {
@@ -133,11 +129,15 @@ describe('PlayerService', () => {
     });
 
     it('should throw BadRequestException for empty userId', async () => {
-      await expect(service.createPlayer(dto, '')).rejects.toThrow(BadRequestException);
+      await expect(service.createPlayer(dto, '')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequestException for null userId', async () => {
-      await expect(service.createPlayer(dto, null as any)).rejects.toThrow(BadRequestException);
+      await expect(service.createPlayer(dto, null as any)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
@@ -208,18 +208,71 @@ describe('PlayerService', () => {
       );
     });
 
-    it('should  throw BadRequestException for empty userId', async () => {
-      await expect(service.getUserById('')).rejects.toThrow(BadRequestException);
+    it('should throw BadRequestException for empty userId', async () => {
+      await expect(service.getUserById('')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
-    it('should  throw BadRequestException for null userId', async () => {
-      await expect(service.getUserById(null as any)).rejects.toThrow(BadRequestException);
+    it('should throw BadRequestException for null userId', async () => {
+      await expect(service.getUserById(null as any)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
   // getPlayerById
+  describe('getPlayerById', () => {
+    const player = {
+      id: 'player-id',
+      userId: 'user-id',
+      name: 'player-name',
+      uid: '123456789',
+      region: Region.AMERICA,
+    };
+
+    it('should return 1 player', async () => {
+      mockRepo.findOneByOrFail.mockResolvedValue(player);
+
+      const result = await service.getPlayerById('player-id');
+
+      expect(mockRepo.findOneByOrFail).toHaveBeenCalledWith({
+        id: 'player-id',
+      });
+
+      expect(result).toEqual(player);
+    });
+
+    it('should throw notFoundException if player is not found', async () => {
+      mockRepo.findOneByOrFail.mockRejectedValue(new Error('Player not found'));
+
+      await expect(service.getPlayerById('missing-id')).rejects.toThrow(
+        NotFoundException,
+      );
+
+      expect(mockRepo.findOneByOrFail).toHaveBeenCalledWith({
+        id: 'missing-id',
+      });
+    });
+
+    it('should throw BadRequestException for empty id', async () => {
+      await expect(service.getPlayerById('')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should throw BadRequestException for null id', async () => {
+      await expect(service.getPlayerById(null as any)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
 
   // updatePlayerById
 
   // deletePlayerById
 });
+
+// TODO:
+// - update getUserById objects to include name field and make them PlayerEntities
+// - add white-space only and id/userId + whitespace tests

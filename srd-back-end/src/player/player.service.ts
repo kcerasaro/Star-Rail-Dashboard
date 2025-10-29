@@ -1,4 +1,10 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from '../../../shared/player.shared';
@@ -9,101 +15,126 @@ import { mapEntityToPlayer } from './mappers/player.mapper';
 
 @Injectable()
 export class PlayerService {
-    constructor(@InjectRepository(PlayerEntity) 
-    private readonly playerEntityRepository: Repository<PlayerEntity>){}
+  constructor(
+    @InjectRepository(PlayerEntity)
+    private readonly playerEntityRepository: Repository<PlayerEntity>,
+  ) {}
 
-    // CREATE
-    async createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<Player> {
-        if(!createPlayerDto || typeof createPlayerDto !== "object") {
-            throw new BadRequestException("player data should be in the form of CreatePlayerDto");
-        }
-
-        if(!userId || userId.trim() === "") {
-            throw new BadRequestException("Valid userId must be provided");
-        }
-
-        const existingPlayer = await this.playerEntityRepository.findOneBy({ uid: createPlayerDto.uid });
-
-        if (existingPlayer) {
-            throw new ConflictException("Player with this UID already exists");
-        }
-
-        const playerEntity = this.playerEntityRepository.create({... createPlayerDto, userId});
-
-        try {
-            const playerEntitySaved = await this.playerEntityRepository.save(playerEntity);
-            return mapEntityToPlayer(playerEntitySaved);
-
-        } catch(error) {
-            throw new InternalServerErrorException("Failed to create player");
-        }
+  // CREATE
+  async createPlayer(
+    createPlayerDto: CreatePlayerDto,
+    userId: string,
+  ): Promise<Player> {
+    if (!createPlayerDto || typeof createPlayerDto !== 'object') {
+      throw new BadRequestException(
+        'player data should be in the form of CreatePlayerDto',
+      );
     }
 
-    // READ
-    async getUserById(userId: string): Promise<Player[]> {
-        if(!userId || userId.trim() === "") {
-            throw new BadRequestException("Valid userId must be provided");
-        }
-
-        const playerEntities = await this.playerEntityRepository.findBy({ userId });
-        return playerEntities.map(mapEntityToPlayer);
+    if (!userId || userId.trim() === '') {
+      throw new BadRequestException('Valid userId must be provided');
     }
 
-    async getPlayerById(id: string): Promise<Player> {
-        if(!id || id.trim() === "") {
-            throw new BadRequestException("Valid id must be provided");
-        }
+    const existingPlayer = await this.playerEntityRepository.findOneBy({
+      uid: createPlayerDto.uid,
+    });
 
-        const playerEntity = await this.playerEntityRepository.findOneByOrFail({ id });
-        return mapEntityToPlayer(playerEntity);
+    if (existingPlayer) {
+      throw new ConflictException('Player with this UID already exists');
     }
 
-    // UPDATE
-    async updatePlayerById(id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
-        if(!updatePlayerDto || typeof updatePlayerDto !== "object") {
-            throw new BadRequestException("player data should be in the form of UpdatePlayerDto");
-        }
+    const playerEntity = this.playerEntityRepository.create({
+      ...createPlayerDto,
+      userId,
+    });
 
-        if(!id || id.trim() === "") {
-            throw new BadRequestException("Valid id must be provided");
-        }
-        
-        const playerEntity = await this.playerEntityRepository.findOneBy({ id });
-        if(!playerEntity) {
-            throw new NotFoundException("Player Not Found");
-        }
+    try {
+      const playerEntitySaved =
+        await this.playerEntityRepository.save(playerEntity);
+      return mapEntityToPlayer(playerEntitySaved);
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to create player');
+    }
+  }
 
-        if(updatePlayerDto.uid && updatePlayerDto.uid !== playerEntity.uid) {
-            const existingPlayer = await this.playerEntityRepository.findOneBy( {uid: updatePlayerDto.uid} );
-
-            if (existingPlayer && existingPlayer.id !== playerEntity.id) {
-                throw new ConflictException("UID already in use by another player");
-            }
-        }
-
-        Object.assign(playerEntity, updatePlayerDto);
-        
-        try {
-            const playerEntityUpdated = await this.playerEntityRepository.save(playerEntity);
-            return mapEntityToPlayer(playerEntityUpdated);
-
-        } catch(error) {
-            throw new InternalServerErrorException("Failed to update player");
-        }
+  // READ
+  async getUserById(userId: string): Promise<Player[]> {
+    if (!userId || userId.trim() === '') {
+      throw new BadRequestException('Valid userId must be provided');
     }
 
-    // DELETE
-    async deletePlayerById(id: string): Promise<{message: string}> {
-        if(!id || id.trim() === "") {
-            throw new BadRequestException("Valid id must be provided");
-        }
-        
-        const deletedPlayer = await this.playerEntityRepository.delete({ id });
-        
-        if(deletedPlayer.affected === 0) {
-            throw new NotFoundException("Player not found");
-        }
+    const playerEntities = await this.playerEntityRepository.findBy({ userId });
+    return playerEntities.map(mapEntityToPlayer);
+  }
 
-        return {message: "Player deleted successfuly"};
+  async getPlayerById(id: string): Promise<Player> {
+    if (!id || id.trim() === '') {
+      throw new BadRequestException('Valid id must be provided');
     }
+
+    try {
+      const playerEntity = await this.playerEntityRepository.findOneByOrFail({
+        id,
+      });
+      return mapEntityToPlayer(playerEntity);
+    } catch (error) {
+      throw new NotFoundException('Player not found');
+    }
+  }
+
+  // UPDATE
+  async updatePlayerById(
+    id: string,
+    updatePlayerDto: UpdatePlayerDto,
+  ): Promise<Player> {
+    if (!updatePlayerDto || typeof updatePlayerDto !== 'object') {
+      throw new BadRequestException(
+        'player data should be in the form of UpdatePlayerDto',
+      );
+    }
+
+    if (!id || id.trim() === '') {
+      throw new BadRequestException('Valid id must be provided');
+    }
+
+    const playerEntity = await this.playerEntityRepository.findOneBy({ id });
+    if (!playerEntity) {
+      throw new NotFoundException('Player Not Found');
+    }
+
+    if (updatePlayerDto.uid && updatePlayerDto.uid !== playerEntity.uid) {
+      const existingPlayer = await this.playerEntityRepository.findOneBy({
+        uid: updatePlayerDto.uid,
+      });
+
+      if (existingPlayer && existingPlayer.id !== playerEntity.id) {
+        throw new ConflictException('UID already in use by another player');
+      }
+    }
+
+    Object.assign(playerEntity, updatePlayerDto);
+
+    try {
+      const playerEntityUpdated =
+        await this.playerEntityRepository.save(playerEntity);
+      return mapEntityToPlayer(playerEntityUpdated);
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update player');
+    }
+  }
+
+  // DELETE
+  async deletePlayerById(id: string): Promise<{ message: string }> {
+    if (!id || id.trim() === '') {
+      throw new BadRequestException('Valid id must be provided');
+    }
+
+    const deletedPlayer = await this.playerEntityRepository.delete({ id });
+
+    if (deletedPlayer.affected === 0) {
+      throw new NotFoundException('Player not found');
+    }
+
+    return { message: 'Player deleted successfuly' };
+  }
 }
