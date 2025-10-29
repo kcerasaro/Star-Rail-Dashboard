@@ -151,6 +151,12 @@ describe('PlayerService', () => {
       );
     });
 
+    it('should throw BadRequestException for whitespace-only userId', async () => {
+      await expect(service.createPlayer(dto, '  ')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
     it('should throw BadRequestException for null userId', async () => {
       await expect(service.createPlayer(dto, null as any)).rejects.toThrow(
         BadRequestException,
@@ -245,6 +251,12 @@ describe('PlayerService', () => {
       );
     });
 
+    it('should throw BadRequestException for whitespace-onlu userId', async () => {
+      await expect(service.getUserById('  ')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
     it('should throw BadRequestException for null userId', async () => {
       await expect(service.getUserById(null as any)).rejects.toThrow(
         BadRequestException,
@@ -300,6 +312,12 @@ describe('PlayerService', () => {
 
     it('should throw BadRequestException for empty id', async () => {
       await expect(service.getPlayerById('')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should throw BadRequestException for whitespace-only id', async () => {
+      await expect(service.getPlayerById('  ')).rejects.toThrow(
         BadRequestException,
       );
     });
