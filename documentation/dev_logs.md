@@ -2,14 +2,15 @@ Jump to [template](#template)
 
 # 2025
 ## October
-### Date
+### 28 October 2025
 - What I did
     - Added unit tests for getUserById in PlayerService
 - What I learned
     - Think about where data is verified. Do you need to a test to verify the service is being passes a valid userId? Or should the controller have already validated that? It will probably be good to check something like this in the service- better safe than sorry. We don't really need to test if the data is in the valid format. Rather, test if it's null/empty or if it usable.
+    - Adding on to the previous point, DTO data doesn't need to be validated, but the existence of the DTO itself should be. Make sure that it's not null or undefined.
 - Known Issues
     - here
-### Date
+### 27 October 2025
 - What I did
     - Researched testing tools and how I can possibly gain experience with AI and LLMs while working on this project. Deduced maybe a chat bot can be implemented in the future
     - Wrote tests for createPlayer in the PlayerService
