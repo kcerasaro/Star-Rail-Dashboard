@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from '../../../shared/player.shared';
@@ -14,6 +14,14 @@ export class PlayerService {
 
     // CREATE
     async createPlayer(createPlayerDto: CreatePlayerDto, userId: string): Promise<Player> {
+        if(!createPlayerDto || typeof createPlayerDto !== "object") {
+            throw new BadRequestException("player data should be in the form of CreatePlayerDto");
+        }
+
+        if(!userId || userId.trim() === "") {
+            throw new BadRequestException("Valid userId must be provided");
+        }
+
         const existingPlayer = await this.playerEntityRepository.findOneBy({ uid: createPlayerDto.uid });
 
         if (existingPlayer) {
@@ -33,17 +41,33 @@ export class PlayerService {
 
     // READ
     async getUserById(userId: string): Promise<Player[]> {
+        if(!userId || userId.trim() === "") {
+            throw new BadRequestException("Valid userId must be provided");
+        }
+
         const playerEntities = await this.playerEntityRepository.findBy({ userId });
         return playerEntities.map(mapEntityToPlayer);
     }
 
     async getPlayerById(id: string): Promise<Player> {
+        if(!id || id.trim() === "") {
+            throw new BadRequestException("Valid id must be provided");
+        }
+
         const playerEntity = await this.playerEntityRepository.findOneByOrFail({ id });
         return mapEntityToPlayer(playerEntity);
     }
 
     // UPDATE
     async updatePlayerById(id: string, updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+        if(!updatePlayerDto || typeof updatePlayerDto !== "object") {
+            throw new BadRequestException("player data should be in the form of UpdatePlayerDto");
+        }
+
+        if(!id || id.trim() === "") {
+            throw new BadRequestException("Valid id must be provided");
+        }
+        
         const playerEntity = await this.playerEntityRepository.findOneBy({ id });
         if(!playerEntity) {
             throw new NotFoundException("Player Not Found");
@@ -70,6 +94,10 @@ export class PlayerService {
 
     // DELETE
     async deletePlayerById(id: string): Promise<{message: string}> {
+        if(!id || id.trim() === "") {
+            throw new BadRequestException("Valid id must be provided");
+        }
+        
         const deletedPlayer = await this.playerEntityRepository.delete({ id });
         
         if(deletedPlayer.affected === 0) {

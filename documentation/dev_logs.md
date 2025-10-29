@@ -2,6 +2,13 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 29 October 2025
+- What I did
+    - Updated PlayerService functions to validate input parameters
+- What I learned
+    - `typeof`: string, number, boolean, function, and undefined returned themselves as a string (ex: `string` returns `"string"`), and everything else returns `"object"` - even null. `!` checks null and undefined and null, so use `typeof` when checking that you're getting an object and not a string, number, etc.
+- Known Issues
+    - here
 ### 28 October 2025
 - What I did
     - Added unit tests for getUserById in PlayerService
