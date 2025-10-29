@@ -143,9 +143,10 @@ describe('PlayerService', () => {
 
   // getUserById
   describe('getUserById', () => {
-    const user1a = {
+    const user1a: PlayerEntity = {
       id: 'player-id-1a',
       userId: 'userId-1',
+      name: 'name-1a',
       uid: '111111111',
       region: Region.AMERICA,
     };
@@ -172,9 +173,10 @@ describe('PlayerService', () => {
     });
 
     it('should return 2 players with the same userId userId-1', async () => {
-      const user1b = {
+      const user1b: PlayerEntity = {
         id: 'player-id-1b',
         userId: 'userId-1',
+        name: 'name-1b',
         uid: '222222222',
         region: Region.AMERICA,
       };
@@ -192,6 +194,7 @@ describe('PlayerService', () => {
       const user2a = {
         id: 'player-id-2a',
         userId: 'userId-2',
+        name: 'name-2a',
         uid: '333333333',
         region: Region.AMERICA,
       };
@@ -223,7 +226,7 @@ describe('PlayerService', () => {
 
   // getPlayerById
   describe('getPlayerById', () => {
-    const player = {
+    const player: PlayerEntity = {
       id: 'player-id',
       userId: 'user-id',
       name: 'player-name',
@@ -274,5 +277,4 @@ describe('PlayerService', () => {
 });
 
 // TODO:
-// - update getUserById objects to include name field and make them PlayerEntities
 // - add white-space only and id/userId + whitespace tests
