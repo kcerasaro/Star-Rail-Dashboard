@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { PlayerService } from './player.service';
 import { PlayerEntity } from './entities/player.entity';
 import { CreatePlayerDto } from './dtos/create-player.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { Region } from '../../../shared/player.shared';
 import {
   BadRequestException,
@@ -126,42 +127,6 @@ describe('PlayerService', () => {
       });
       expect(mockRepo.save).toHaveBeenCalled();
     });
-
-    it('should throw BadRequestException for null createPlayerDto', async () => {
-      await expect(service.createPlayer(null as any, 'userId')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for undefined createPlayerDto', async () => {
-      await expect(
-        service.createPlayer(undefined as any, 'userId'),
-      ).rejects.toThrow(BadRequestException);
-    });
-
-    it('should throw BadRequestException for non-object createPlayerDto', async () => {
-      await expect(
-        service.createPlayer('not-an-object' as any, 'userId'),
-      ).rejects.toThrow(BadRequestException);
-    });
-
-    it('should throw BadRequestException for empty userId', async () => {
-      await expect(service.createPlayer(dto, '')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for whitespace-only userId', async () => {
-      await expect(service.createPlayer(dto, '  ')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for null userId', async () => {
-      await expect(service.createPlayer(dto, null as any)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
   });
 
   // getUserById
@@ -244,24 +209,6 @@ describe('PlayerService', () => {
       expect(result).toHaveLength(1);
       expect(result.every((player) => player.userId === 'userId-1')).toBe(true);
     });
-
-    it('should throw BadRequestException for empty userId', async () => {
-      await expect(service.getUserById('')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for whitespace-onlu userId', async () => {
-      await expect(service.getUserById('  ')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for null userId', async () => {
-      await expect(service.getUserById(null as any)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
   });
 
   // getPlayerById
@@ -309,30 +256,227 @@ describe('PlayerService', () => {
         id: 'missing-id',
       });
     });
-
-    it('should throw BadRequestException for empty id', async () => {
-      await expect(service.getPlayerById('')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for whitespace-only id', async () => {
-      await expect(service.getPlayerById('  ')).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('should throw BadRequestException for null id', async () => {
-      await expect(service.getPlayerById(null as any)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
   });
 
   // updatePlayerById
+  describe('updatePlayerById', () => {
+    let playerToUpdate: PlayerEntity;
+
+    beforeEach(async () => {
+      playerToUpdate = {
+        id: 'player-id',
+        userId: 'user-id',
+        name: 'update-player',
+        uid: '987654321',
+        region: Region.AMERICA,
+      };
+    });
+    const dto: UpdatePlayerDto = {
+      name: 'player-name',
+      uid: '123456789',
+      region: Region.AMERICA,
+    };
+
+    const playerUpdated: PlayerEntity = {
+      id: 'player-id',
+      userId: 'user-id',
+      name: 'player-name',
+      uid: '123456789',
+      region: Region.AMERICA,
+    };
+
+    it('should update the player', async () => {
+      mockRepo.findOneBy
+        .mockResolvedValueOnce(playerToUpdate)
+        .mockResolvedValueOnce(null);
+      mockRepo.save.mockResolvedValue(playerUpdated);
+
+      const result = await service.updatePlayerById('player-id', dto);
+
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(1, {
+        id: 'player-id',
+      });
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(2, {
+        uid: '123456789',
+      });
+      expect(mockRepo.save).toHaveBeenCalledWith(playerToUpdate);
+
+      expect(result).toEqual(playerUpdated);
+    });
+
+    it('should update the player with identical uid', async () => {
+      const dtoIdenticalUid: UpdatePlayerDto = {
+        name: 'player-name',
+        uid: '987654321',
+        region: Region.AMERICA,
+      };
+
+      mockRepo.findOneBy.mockResolvedValueOnce(playerToUpdate);
+      mockRepo.save.mockResolvedValue(playerUpdated);
+
+      const result = await service.updatePlayerById(
+        'player-id',
+        dtoIdenticalUid,
+      );
+
+      expect(mockRepo.findOneBy).toHaveBeenCalledTimes(1);
+      expect(mockRepo.findOneBy).toHaveBeenCalledWith({ id: 'player-id' });
+      expect(mockRepo.save).toHaveBeenCalledWith(playerToUpdate);
+
+      expect(result).toEqual(playerUpdated);
+    });
+
+    it('should update player with trimmed id', async () => {
+      mockRepo.findOneBy
+        .mockResolvedValueOnce(playerToUpdate)
+        .mockResolvedValueOnce(null);
+      mockRepo.save.mockResolvedValue(playerUpdated);
+
+      const result = await service.updatePlayerById('   player-id   ', dto);
+
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(1, {
+        id: 'player-id',
+      });
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(2, {
+        uid: '123456789',
+      });
+      expect(mockRepo.save).toHaveBeenCalledWith(playerToUpdate);
+
+      expect(result).toEqual(playerUpdated);
+    });
+
+    it('should throw NotFoundException if player is not found', async () => {
+      mockRepo.findOneBy.mockResolvedValue(null);
+
+      await expect(service.updatePlayerById('player-id', dto)).rejects.toThrow(
+        NotFoundException,
+      );
+
+      expect(mockRepo.findOneBy).toHaveBeenCalledWith({ id: 'player-id' });
+      expect(mockRepo.save).not.toHaveBeenCalled();
+    });
+
+    it('should throw ConflictException when UID exists for another player', async () => {
+      const existingPlayer: PlayerEntity = {
+        id: 'existing-player-id',
+        userId: 'user-id',
+        name: 'player-name',
+        uid: '123456789',
+        region: Region.AMERICA,
+      };
+
+      mockRepo.findOneBy
+        .mockResolvedValueOnce(playerToUpdate)
+        .mockResolvedValueOnce(existingPlayer);
+
+      await expect(service.updatePlayerById('player-id', dto)).rejects.toThrow(
+        ConflictException,
+      );
+
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(1, {
+        id: 'player-id',
+      });
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(2, {
+        uid: '123456789',
+      });
+      expect(mockRepo.save).not.toHaveBeenCalled();
+    });
+
+    it('should throw InternalServerErrorException if update fails', async () => {
+      mockRepo.findOneBy
+        .mockResolvedValueOnce(playerToUpdate)
+        .mockResolvedValueOnce(null);
+      mockRepo.save.mockRejectedValue(new Error('Internal error'));
+
+      await expect(service.updatePlayerById('player-id', dto)).rejects.toThrow(
+        InternalServerErrorException,
+      );
+
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(1, {
+        id: 'player-id',
+      });
+      expect(mockRepo.findOneBy).toHaveBeenNthCalledWith(2, {
+        uid: '123456789',
+      });
+      expect(mockRepo.save).toHaveBeenCalledWith(playerToUpdate);
+    });
+  });
 
   // deletePlayerById
-});
+  describe('deletePlayerById', () => {});
 
-// TODO:
-// - add white-space only and id/userId + whitespace tests
+  // input parameter tests
+  describe('input parameter tests', () => {
+    const validDto = {
+      name: 'valid-name',
+      uid: '123456789',
+      region: Region.AMERICA,
+    };
+
+    const validUserIdOrId = 'validUserIdOrId';
+
+    const invalidDtos = [
+      { label: 'undefined Dto', value: null },
+      { label: 'null DTO', value: undefined },
+      { label: 'non-object DTO', value: 'not-an-object' },
+    ];
+
+    const invalidUserIdOrId = [
+      { label: 'null userId or Id', value: null },
+      { label: 'null userId or Id', value: '' },
+      { label: 'whitespace-only userId or Id', value: '   ' },
+    ];
+
+    describe('createPlayer parameter validation', () => {
+      invalidDtos.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.createPlayer(value as any, validUserIdOrId)).rejects.toThrow(BadRequestException);
+        });
+      });
+
+      invalidUserIdOrId.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.createPlayer(validDto, value as any)).rejects.toThrow(BadRequestException);
+        });
+      });
+    });
+
+    describe('getUserById parameter validation', () => {
+      invalidUserIdOrId.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.getUserById(value as any)).rejects.toThrow(BadRequestException);
+        });
+      });
+    });
+
+    describe('getPlayerById parameter validation', () => {
+      invalidUserIdOrId.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.getPlayerById(value as any)).rejects.toThrow(BadRequestException);
+        });
+      });
+    });
+
+    describe('updateById parameter validation', () => {
+      invalidUserIdOrId.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.updatePlayerById(value as any, validDto)).rejects.toThrow(BadRequestException);
+        });
+      });
+
+      invalidDtos.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.updatePlayerById(validUserIdOrId, value as any)).rejects.toThrow(BadRequestException);
+        });
+      });
+    });
+
+    describe('deleteById parameter validation', () => {
+      invalidUserIdOrId.forEach(({ label, value }) => {
+        it(`should throw BadRequestException for ${label}`, async () => {
+          await expect(service.deletePlayerById(value as any)).rejects.toThrow(BadRequestException);
+        });
+      });
+    });
+  });
+});

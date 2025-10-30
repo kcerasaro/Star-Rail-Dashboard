@@ -2,6 +2,15 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 30 October 2025
+- What I did
+    - Finished primary tests for updatePlayer in PlayerService
+    - Refactored tests such that all input parameter tests are grouped together in PlayerService
+    - Configured project to work with Cursor's jest extension
+- What I learned
+    - here
+- Known Issues
+    - here
 ### 29 October 2025
 - What I did
     - Updated PlayerService functions to validate input parameters
@@ -10,8 +19,9 @@ Jump to [template](#template)
 - What I learned
     - `typeof`: string, number, boolean, function, and undefined returned themselves as a string (ex: `string` returns `"string"`), and everything else returns `"object"` - even null. `!` checks null and undefined and null, so use `typeof` when checking that you're getting an object and not a string, number, etc.
     - `as any` allows a value to bypass TypeScript's static type checks, enabling you to pass parameters that would normally be rejected by the compiler. This is especially useful in testing, where you want to simulate unpredictable or invalid runtime inputs.
+    - How to edit git messages
 - Known Issues
-    - here
+    - Refactor tests such that update/create share the same tests and get/delete share the same tests for BadRequestException for the input parameter validation
 ### 28 October 2025
 - What I did
     - Added unit tests for getUserById in PlayerService
