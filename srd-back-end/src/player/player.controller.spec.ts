@@ -36,17 +36,42 @@ describe('PlayerController', () => {
     });
 
     // createPlayer
-    describe('POST /player', () => {}); 
+    describe('POST /player', () => {
+        it('returns 201 when player is created successfully', async () => {});
+        it('returns 400 when userId is missing or invalid', async () => {});
+        it('returns 409 when UID already exists', async () => {});
+        it('returns 500 on unexpected error', async () => {});
+    }); 
 
     // getAllPlayers
-    describe('GET /player', () => {}); 
+    describe('GET /player', () => {
+        it('returns 200 with list of players for valid userId', async () => {});
+        it('returns 400 when userId is missing or invalid', async () => {});
+        it('returns 500 on unexpected error', async () => {});
+    }); 
 
     // getPlayer
-    describe('GET /player/:id', () => {}); 
+    describe('GET /player/:id', () => {
+        it('returns 200 with player data for valid Id', async () => {});
+        it('returns 400 when Id is missing or invalid', async () => {});
+        it('returns 404 when player is not found', async () => {});
+        it('returns 500 on unexpected error', async () => {});
+    }); 
 
     // updatePlayer
-    describe('PATCH /player/:id', () => {}); 
+    describe('PATCH /player/:id', () => {
+        it('returns 200 when player is updated successfully', async () => {});
+        it('returns 400 for invalid update payload or missing required fields', async () => {});
+        it('returns 404 when player is not found', async () => {});
+        it('returns 409 when UID is already in use by another player', async () => {});
+        it('returns 500 on unexpected error', async () => {});
+    }); 
 
     // deletePlayer
-    describe('Delete /player/:id', () => {})
+    describe('DELETE /player/:id', () => {
+        it('returns 200 when player is deleted successfully', async () => {});
+        it('returns 400 when Id is missing or invalid', async () => {});
+        it('returns 404 when player is not found', async () => {});
+        it('returns 500 on unexpected error', async () => {});
+    })
 });

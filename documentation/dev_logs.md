@@ -12,6 +12,7 @@ Jump to [template](#template)
     - All vs. Each in testing: before/after `all` runs per test suite (describe block) while before/after `each` runs per every single test
     - Service tests are unit tests. Now moving into the controller, a new kind of tests called integration tests is  introduced. Integration tests check to make sure different parts of an application work together properly. Later for the whole app, e2e (end-to-end) tests could be implemented
     - SwaggerApi status decorators: very straight forward. There is a create for create requests and an Ok for all other requests. Then for errors- there is a decorator for each type of error. If more than one of the same type of error is thrown, the description should say something about all of them. There cannot be more than one of each decorator per function
+    - Controller tests should mirror service tests in covering error conditions, but they don't need to be exhaustive. Since service tests already validate input types and edge cases, controller tests focus on confirming that the correct HTTP status codes are returned. One test per error type per endpoint should suffice.
 - Known Issues
     - here
 ### 30 October 2025
