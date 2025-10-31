@@ -21,6 +21,7 @@ describe('PlayerService', () => {
     save: jest.fn(),
     findBy: jest.fn(),
     findOneByOrFail: jest.fn(),
+    delete: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -403,7 +404,44 @@ describe('PlayerService', () => {
   });
 
   // deletePlayerById
-  describe('deletePlayerById', () => {});
+  describe('deletePlayerById', () => {
+    it('should delete a player', async () => {
+      mockRepo.delete.mockResolvedValue({affected: 1});
+
+      const result = await service.deletePlayerById('player-id');
+
+      expect(mockRepo.delete).toHaveBeenCalledWith({id: 'player-id'});
+
+      expect(result).toEqual({message: 'Player deleted successfully'});
+    });
+
+    it('should delete a player with trimmed id', async () => {
+      mockRepo.delete.mockResolvedValue({affected: 1});
+
+      const result = await service.deletePlayerById('   player-id   ');
+
+      expect(mockRepo.delete).toHaveBeenCalledWith({id: 'player-id'});
+
+      expect(result).toEqual({message: 'Player deleted successfully'});
+
+    });
+
+    it('should throw NotFoundException when player is not found', async () => {
+      mockRepo.delete.mockResolvedValue({affected: 0});
+
+      await expect(service.deletePlayerById('invalid-player-id')).rejects.toThrow(NotFoundException);
+
+      expect(mockRepo.delete).toHaveBeenCalledWith({id: 'invalid-player-id'});
+    });
+
+    it('should throw InternalServerErrorException if delete fails', async () => {
+      mockRepo.delete.mockRejectedValue(new Error('Internal Error'));
+
+      await expect(service.deletePlayerById('player-id')).rejects.toThrow(InternalServerErrorException);
+
+      expect(mockRepo.delete).toHaveBeenCalledWith({id: 'player-id'});
+    });
+  });
 
   // input parameter tests
   describe('input parameter tests', () => {

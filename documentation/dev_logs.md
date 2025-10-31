@@ -6,7 +6,8 @@ Jump to [template](#template)
 - What I did
     - here
 - What I learned
-    - Whenever modifying the database (add, delete, update records), wrap the operation in a try-catch block and throw an `InternalServerExceptionError` if it fails.
+    - Whenever modifying the database (add, delete, update records), wrap the operation in a try-catch block and throw an `InternalServerExceptionError` if it fails. This adds consistency when unexpected issues with the database occur. Ex: connection or constraint issues
+    - If an error is thrown inside of a try-catch, that error alongside any other error within the function should be re-thrown inside the catch block to avoid the error of the try-catch overwriting the true error. Do this through an if statement `error instanceof ErrorType`
 - Known Issues
     - here
 ### 30 October 2025

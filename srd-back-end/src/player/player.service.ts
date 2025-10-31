@@ -146,9 +146,12 @@ export class PlayerService {
         throw new NotFoundException('Player not found');
       }
 
-      return { message: 'Player deleted successfuly' };
+      return { message: 'Player deleted successfully' };
     } catch (error) {
-      throw new InternalServerErrorException('Failed to deelte player');
+      if(error instanceof NotFoundException || error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Failed to delete player');
     }
   }
 }
