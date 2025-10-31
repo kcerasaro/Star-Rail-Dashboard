@@ -2,15 +2,22 @@ Jump to [template](#template)
 
 # 2025
 ## October
+### 31 October 2025
+- What I did
+    - here
+- What I learned
+    - Whenever modifying the database (add, delete, update records), wrap the operation in a try-catch block and throw an `InternalServerExceptionError` if it fails.
+- Known Issues
+    - here
 ### 30 October 2025
 - What I did
     - Finished primary tests for updatePlayer in PlayerService
     - Refactored tests such that all input parameter tests are grouped together in PlayerService
     - Configured project to work with Cursor's jest extension
 - What I learned
-    - here
+    - Different ways to group tests and the pros and cons for each. Originally considered making describe blocks for pass/fail/input under each function in the PlayerService, but then decided to group the input validation tests together at the end so a `foreach` can be used- reducing the amount of manual tests that need to be written. Instead of writing 6 additional tests for each function, only one test per parameter is added.
 - Known Issues
-    - here
+    - None
 ### 29 October 2025
 - What I did
     - Updated PlayerService functions to validate input parameters

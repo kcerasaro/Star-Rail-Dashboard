@@ -139,12 +139,16 @@ export class PlayerService {
 
     id = id.trim();
 
-    const deletedPlayer = await this.playerEntityRepository.delete({ id });
+    try {
+      const deletedPlayer = await this.playerEntityRepository.delete({ id });
 
-    if (deletedPlayer.affected === 0) {
-      throw new NotFoundException('Player not found');
+      if (deletedPlayer.affected === 0) {
+        throw new NotFoundException('Player not found');
+      }
+
+      return { message: 'Player deleted successfuly' };
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to deelte player');
     }
-
-    return { message: 'Player deleted successfuly' };
   }
 }
