@@ -4,11 +4,13 @@ Jump to [template](#template)
 ## October
 ### 31 October 2025
 - What I did
-    - here
+    - Added unit tests for DeletePlayerById
 - What I learned
     - Whenever modifying the database (add, delete, update records), wrap the operation in a try-catch block and throw an `InternalServerExceptionError` if it fails. This adds consistency when unexpected issues with the database occur. Ex: connection or constraint issues
     - If an error is thrown inside of a try-catch, that error alongside any other error within the function should be re-thrown inside the catch block to avoid the error of the try-catch overwriting the true error. Do this through an if statement `error instanceof ErrorType`
     - All vs. Each in testing: before/after `all` runs per test suite (describe block) while before/after `each` runs per every single test
+    - Service tests are unit tests. Now moving into the controller, a new kind of tests called integration tests is  introduced. Integration tests check to make sure different parts of an application work together properly. Later for the whole app, e2e (end-to-end) tests could be implemented
+    - SwaggerApi status decorators: very straight forward. There is a create for create requests and an Ok for all other requests. Then for errors- there is a decorator for each type of error. If more than one of the same type of error is thrown, the description should say something about all of them. There cannot be more than one of each decorator per function
 - Known Issues
     - here
 ### 30 October 2025

@@ -107,7 +107,7 @@ export class PlayerService {
 
     const playerEntity = await this.playerEntityRepository.findOneBy({ id });
     if (!playerEntity) {
-      throw new NotFoundException('Player Not Found');
+      throw new NotFoundException('Player not found');
     }
 
     if (updatePlayerDto.uid && updatePlayerDto.uid !== playerEntity.uid) {
