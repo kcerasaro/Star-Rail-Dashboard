@@ -4,7 +4,6 @@ import { CreatePlayerDto } from './dtos/create-player.dto';
 import { ApiBody, ApiOperation, ApiTags, ApiParam, ApiCreatedResponse, ApiBadRequestResponse, ApiConflictResponse, ApiInternalServerErrorResponse, ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { PlayerDto } from './dtos/playerDto';
-import { ServerDescription } from 'typeorm';
 
 @ApiTags("player")
 @Controller("player")
@@ -27,7 +26,7 @@ export class PlayerController {
     @ApiConflictResponse({description: 'Player with this UID already exists'})
     @ApiInternalServerErrorResponse({description: 'Failed to create player'})
     async createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<PlayerDto> {
-        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedUserId2) as PlayerDto; // HARD CODED USERID
+        return await this.playerService.createPlayer(createPlayerDto, this.hardCodedUserId2) as PlayerDto; // HARD CODED USERID  
     }
 
     // READ
@@ -35,6 +34,7 @@ export class PlayerController {
     @ApiOperation({ summary: "Get all players from user"})
     @ApiOkResponse({description: 'List of players', type: [PlayerDto]})
     @ApiBadRequestResponse({description: 'Valid userId must be provided'})
+    @ApiInternalServerErrorResponse({description: 'Failed to get players'})
     async getAllPlayers(): Promise<PlayerDto[]> {
         return await this.playerService.getUserById(this.hardCodedUserId1) as PlayerDto[]; // HARD CODED USERID
     }
@@ -45,6 +45,7 @@ export class PlayerController {
     @ApiOkResponse({description: 'Player found', type: PlayerDto})
     @ApiBadRequestResponse({description: 'Valid id must be provided'})
     @ApiNotFoundResponse({description: 'Player not found'})
+    @ApiInternalServerErrorResponse({description: 'Failed to get player'})
     async getPlayer(@Param("id") id: string): Promise<PlayerDto> {
         return await this.playerService.getPlayerById(this.hardCodedId2) as PlayerDto; // HARD CODED ID
     }

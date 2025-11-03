@@ -1,6 +1,15 @@
 Jump to [template](#template)
 
 # 2025
+## November
+### 03 November 2025
+- What I did
+    - here
+- What I learned
+    - Use `.send(body)` in controller tests when there is a body that needs to be sent over. Commonly used in CREATE, PUT, and, PATCH tests
+- Known Issues
+    - here
+
 ## October
 ### 31 October 2025
 - What I did
@@ -14,7 +23,8 @@ Jump to [template](#template)
     - SwaggerApi status decorators: very straight forward. There is a create for create requests and an Ok for all other requests. Then for errors- there is a decorator for each type of error. If more than one of the same type of error is thrown, the description should say something about all of them. There cannot be more than one of each decorator per function
     - Controller tests should mirror service tests in covering error conditions, but they don't need to be exhaustive. Since service tests already validate input types and edge cases, controller tests focus on confirming that the correct HTTP status codes are returned. One test per error type per endpoint should suffice.
 - Known Issues
-    - here
+    - None
+
 ### 30 October 2025
 - What I did
     - Finished primary tests for updatePlayer in PlayerService
@@ -24,6 +34,7 @@ Jump to [template](#template)
     - Different ways to group tests and the pros and cons for each. Originally considered making describe blocks for pass/fail/input under each function in the PlayerService, but then decided to group the input validation tests together at the end so a `foreach` can be used- reducing the amount of manual tests that need to be written. Instead of writing 6 additional tests for each function, only one test per parameter is added.
 - Known Issues
     - None
+
 ### 29 October 2025
 - What I did
     - Updated PlayerService functions to validate input parameters
@@ -35,6 +46,7 @@ Jump to [template](#template)
     - How to edit git messages
 - Known Issues
     - Refactor tests such that update/create share the same tests and get/delete share the same tests for BadRequestException for the input parameter validation
+
 ### 28 October 2025
 - What I did
     - Added unit tests for getUserById in PlayerService
@@ -42,7 +54,8 @@ Jump to [template](#template)
     - Think about where data is verified. Do you need to a test to verify the service is being passes a valid userId? Or should the controller have already validated that? It will probably be good to check something like this in the service- better safe than sorry. We don't really need to test if the data is in the valid format. Rather, test if it's null/empty or if it usable.
     - Adding on to the previous point, DTO data doesn't need to be validated, but the existence of the DTO itself should be. Make sure that it's not null or undefined.
 - Known Issues
-    - here
+    - None
+
 ### 27 October 2025
 - What I did
     - Researched testing tools and how I can possibly gain experience with AI and LLMs while working on this project. Deduced maybe a chat bot can be implemented in the future
@@ -52,6 +65,7 @@ Jump to [template](#template)
     - Here is the general flow of how a test should be written: (1) define the parameters, (2) define the expected value, (3) simulate the function's dependencies (for service, this is the repository methods), (4) call the function that is being tested, (5) verify each dependency was called correctly, (6) assert the final result
 - Known Issues
     - None
+
 ### 25 October 2025
 - What I did
     - Implemented SelectFieldComponent
@@ -63,6 +77,7 @@ Jump to [template](#template)
     - How to use generic types in Typescript through- important for the select field as several dropdowns will be implemented, but different enums will be given
 - Known Issues
     - None
+
 ### 21 October 2025
 - What I did
     - Implemented InputField component
@@ -72,6 +87,7 @@ Jump to [template](#template)
     - Do not forget these shared components can do some logic, but it should only pertain to that component itself. Ex: have logic in the InputField component to display what the user types, but handle any confirmation of the entered fields in the PlayerWidget.
 - Known Issues
     - None
+
 ### 17 October 2025
 - What I did
     - Added Storybook to help with development of individual components
@@ -79,6 +95,7 @@ Jump to [template](#template)
     - The tool Storybook: settinhg up the files, how to use, purpose of each file
 - Known Issues
     - None
+
 ### 16 October 2025
 - What I did
     - Fixed ports issues when connecting the frontend to the backend
