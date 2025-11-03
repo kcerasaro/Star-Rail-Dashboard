@@ -1,7 +1,9 @@
 services:
+
   postgres:
-    image: postgres:15
-    restart: always
+    image: postgres:15-alpine
+    container_name: srd_postgres
+    restart: unless-stopped
     env_file:
       - ./srd-back-end/.env.development.local
     ports:
@@ -11,26 +13,32 @@ services:
 
   backend:
     build:
-      context: .                     # Root context to access shared/
+      context: .
       dockerfile: ./srd-back-end/Dockerfile
-    working_dir: /app/srd-back-end
+    container_name: srd_backend
+    restart: unless-stopped
     ports:
-      - '3000:3000'
+      - '5000:3000'
     depends_on:
       - postgres
     env_file:
       - ./srd-back-end/.env.development.local
     volumes:
-      - .:/app                       # Mount entire repo to access shared/
+      # Mount source code for hot reload
+      - ./srd-back-end/src:/app/srd-back-end/src
+      - ./shared:/app/shared
+      # Protect node_modules
       - backend_node_modules:/app/srd-back-end/node_modules
-    command: pnpm start:dev
-    restart: always
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
 
   frontend:
     build:
-      context: .                     # Root context to access shared/
+      context: .
       dockerfile: ./srd-front-end/Dockerfile
-    working_dir: /app/srd-front-end
+    container_name: srd_frontend
+    restart: unless-stopped
     ports:
       - '5173:5173'
     depends_on:
@@ -38,10 +46,13 @@ services:
     env_file:
       - ./srd-front-end/.env.development.local
     volumes:
-      - .:/app                       # Mount entire repo to access shared/
+      # Mount source code for hot reload
+      - ./srd-front-end/src:/app/srd-front-end/src
+      - ./shared:/app/shared
+      # Protect node_modules
       - frontend_node_modules:/app/srd-front-end/node_modules
-    command: pnpm run dev
-    restart: always
+    environment:
+      - NODE_ENV=development
 
 volumes:
   pgdata:

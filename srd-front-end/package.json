@@ -7,24 +7,41 @@
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@shared/utils": "file:../shared",
+    "axios": "^1.12.2",
+    "lucide-react": "^0.548.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.65.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "4.1.1",
     "@eslint/js": "^9.36.0",
+    "@storybook/addon-a11y": "9.1.12",
+    "@storybook/addon-docs": "9.1.12",
+    "@storybook/addon-onboarding": "9.1.12",
+    "@storybook/addon-vitest": "9.1.12",
+    "@storybook/react-vite": "9.1.12",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
+    "eslint-plugin-storybook": "9.1.12",
     "globals": "^16.4.0",
+    "playwright": "^1.56.1",
+    "storybook": "9.1.12",
     "typescript": "^5.9.3",
-    "vite": "^7.1.7"
+    "vite": "^7.1.7",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
 }

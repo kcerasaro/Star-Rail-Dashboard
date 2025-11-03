@@ -1,16 +1,21 @@
 FROM node:18-alpine
 
+RUN apk add --no-cache dumb-init
+
 WORKDIR /app
 
-COPY ./srd-back-end/ ./srd-back-end/
 COPY ./shared/ ./shared/
 
+COPY ./srd-back-end/package.json ./srd-back-end/
+
+RUN corepack enable
+
 WORKDIR /app/srd-back-end
+RUN pnpm install
 
-ENV CI=true  
-
-RUN corepack enable && pnpm install
+COPY ./srd-back-end/ ./
 
 EXPOSE 3000
 
+ENTRYPOINT ["dumb-init", "--"]
 CMD ["pnpm", "start:dev"]

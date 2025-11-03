@@ -1,0 +1,25 @@
+# Dependencies
+**/node_modules
+
+# Build outputs
+**/dist
+**/build
+**/.next
+
+# Environment files
+**/.env*
+
+# IDE
+**/.vscode
+**/.idea
+**/.DS_Store
+
+# Version control
+**/.git
+
+# Testing
+**/coverage
+**/*.log
+
+# Documentation
+**/*.md
